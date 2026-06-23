@@ -823,7 +823,6 @@
             <div class="ios-segment-group" id="durumSecici">
                 <div class="ios-segment-btn active" onclick="setDurumStr('gunduz', this)">Gündüz</div>
                 <div class="ios-segment-btn" onclick="setDurumStr('gece', this)">Gece</div>
-                <div class="ios-segment-btn" onclick="setDurumStr('istirahat', this)">İstirahat</div>
             </div>
             
             <div id="gunSeciciKapsayici">
@@ -1361,27 +1360,30 @@
         "cakma1236": {
             cycle: 15,
             pattern: [
+                // 5 Gündüz (index 0-4)
                 {n:"GÜN",  sub:"1. Gün",  c:"#FF9500"},
                 {n:"GÜN",  sub:"2. Gün",  c:"#FF9500"},
                 {n:"GÜN",  sub:"3. Gün",  c:"#FF9500"},
                 {n:"GÜN",  sub:"4. Gün",  c:"#FF9500"},
                 {n:"GÜN",  sub:"5. Gün",  c:"#FF9500"},
+                // 5 Gece + 5 Ara İstirahat dönüşümlü (index 5-14)
+                // GE1, İ, GE2, İ, GE3, İ, GE4, İ, GE5, İ
                 {n:"GECE", sub:"1. Gece", c:"#5856D6"},
+                {n:"İST",  sub:"Ara İst", c:"#34C759"},
                 {n:"GECE", sub:"2. Gece", c:"#5856D6"},
+                {n:"İST",  sub:"Ara İst", c:"#34C759"},
                 {n:"GECE", sub:"3. Gece", c:"#5856D6"},
+                {n:"İST",  sub:"Ara İst", c:"#34C759"},
                 {n:"GECE", sub:"4. Gece", c:"#5856D6"},
+                {n:"İST",  sub:"Ara İst", c:"#34C759"},
                 {n:"GECE", sub:"5. Gece", c:"#5856D6"},
-                {n:"İST",  sub:"1. İst",  c:"#34C759"},
-                {n:"İST",  sub:"2. İst",  c:"#34C759"},
-                {n:"İST",  sub:"3. İst",  c:"#34C759"},
-                {n:"İST",  sub:"4. İst",  c:"#34C759"},
-                {n:"İST",  sub:"5. İst",  c:"#34C759"},
+                {n:"İST",  sub:"Ara İst", c:"#34C759"},
             ],
             // Referans tarihte hangi döngü index'indeyim?
             getStartIndex: function(durum, gun) {
-                if(durum === 'gunduz')    return (gun - 1);       // 0-4
-                if(durum === 'gece')      return 5 + (gun - 1);   // 5-9
-                if(durum === 'istirahat') return 10 + (gun - 1);  // 10-14
+                if(durum === 'gunduz')    return (gun - 1);           // 0-4
+                if(durum === 'gece')      return 5 + (gun - 1) * 2;  // 5,7,9,11,13
+                if(durum === 'istirahat') return 6 + (gun - 1) * 2;  // 6,8,10,12,14
                 return 0;
             },
             getMaxGun: function(durum) { return 5; }
