@@ -466,8 +466,8 @@
 
 <div id="loginScreen">
     <div class="login-box">
-        <div class="login-logo-wrap">
-            <i class="fa-solid fa-shield-halved"></i>
+        <div class="login-logo-wrap" style="background:none; box-shadow:none;">
+            <img src="2378.png" style="width:72px; height:72px; border-radius:18px; object-fit:cover; box-shadow:0 8px 24px rgba(0,0,0,0.4);">
         </div>
         <h2>Bilgi Notu</h2>
         <p class="login-subtitle">Erişim için Sicil ve Şifrenizi giriniz.</p>
@@ -482,6 +482,9 @@
         <button id="loginBtn" onclick="girisYap()">
             <i class="fa-solid fa-right-to-bracket" style="margin-right:6px;"></i>Giriş Yap
         </button>
+        <div style="margin-top:20px; font-size:11px; color:rgba(255,255,255,0.3); text-align:center;">
+            Developed by <b style="color:rgba(255,255,255,0.5);">ysfykc</b>
+        </div>
     </div>
 </div>
 
@@ -527,10 +530,11 @@
                     <option value="">Lütfen vaka türünü seçin...</option>
                     <option value="Adli Vaka (Genel)">Adli Vaka (Genel)</option>
                     <option value="Kasten Yaralama">Kasten Yaralama</option>
+                    <option value="Hakaret">Hakaret</option>
+                    <option value="Tehdit ve Hakaret">Tehdit ve Hakaret</option>
                     <option value="Nitelikli Dolandırıcılık">Nitelikli Dolandırıcılık</option>
                     <option value="Evden Hırsızlık">Evden Hırsızlık</option>
                     <option value="İşyerinden Hırsızlık">İşyerinden Hırsızlık</option>
-                    <option value="Tehdit ve Hakaret">Tehdit ve Hakaret</option>
                     <option value="Mala Zarar Verme">Mala Zarar Verme</option>
                     <option value="Taksirle Yaralama">Taksirle Yaralama</option>
                     <option value="Kayıp Şahıs">Kayıp Şahıs</option>
@@ -2053,14 +2057,20 @@
     function sahisEkle() {
         const rol = document.getElementById("sahisRol").value;
         const adRaw = document.getElementById("sahisAd").value.trim();
-        const tc = document.getElementById("sahisTc").value.trim();
+        const tc = document.getElementById("sahisTc") ? document.getElementById("sahisTc").value.trim() : "";
+        const yas = document.getElementById("sahisYas") ? document.getElementById("sahisYas").value.trim() : "";
         
         if(adRaw !== "") { 
             const ad = isimFormatla(adRaw);
-            let tamAd = tc !== "" ? `${ad} (T.C: ${tc})` : ad;
+            // Yaş varsa ismin hemen yanına parantez içinde ekle
+            let adYas = yas ? `${ad} (${yas})` : ad;
+            // TC varsa ekle
+            let tamAd = tc !== "" ? `${adYas} (T.C: ${tc})` : adYas;
             sahislarDizisi.push({ rol, ad: tamAd }); 
             document.getElementById("sahisAd").value = ""; 
-            document.getElementById("sahisTc").value = ""; 
+            if(document.getElementById("sahisTc")) document.getElementById("sahisTc").value = ""; 
+            if(document.getElementById("sahisYas")) document.getElementById("sahisYas").value = "";
+            if(document.getElementById("sahisTc")) document.getElementById("sahisTc").style.boxShadow = "none";
             sahisListesiniCiz(); 
             metinOlustur(); 
         }
@@ -2119,7 +2129,7 @@
             const olayYeri = document.getElementById("olayYeri").value || "";
             let ozet = document.getElementById("ozet").value || "";
 
-            let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n\n`;
+            let metin = `*${baslikTuru}*\n*Dodurga İlçe Emniyet Amirliği*🇹🇷\n`;
             if(konu) metin += `*Konu:* ${konu}\n`;
             
             if(tur === "adli") {
@@ -2137,7 +2147,7 @@
             let yerEtiketi = (tur === "asayis" || tur === "asayis_trafik") ? "Kontrol Yeri" : "Olay Yeri";
             if(olayYeri) metin += `*${yerEtiketi}:* ${olayYeri}\n`;
             
-            if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n\n`;
+            if(tarih || saat) metin += `*Tarih/Saat:* ${tarih} ${saat}\n`;
             
             if(tur === "asayis" || tur === "asayis_trafik") {
                 let sSahis = document.getElementById("sorgulananSahis") ? document.getElementById("sorgulananSahis").value : "";
@@ -2146,9 +2156,8 @@
                 if(sArac) metin += `*Sorgulanan Araç:* ${sArac}\n`;
             }
             
-            if(ozet) metin += `\n*ÖZET:*\n${ozet}\n\n`;
-            else metin += `\n`;
-            metin += `*Arz ederim.*`;
+            if(ozet) metin += `\n*ÖZET:*\n${ozet}\n`;
+            metin += `\n*Arz ederim.*`;
 
             document.getElementById("wpOnizleme").innerHTML = metin.replace(/\*(.*?)\*/g, '<strong>$1</strong>');
             document.getElementById("wpOnizleme").setAttribute('data-raw', metin);
