@@ -1159,6 +1159,12 @@
                         <textarea class="ifade-metin" placeholder="Ham ifade — 'yaptım, gittim, söyledim' şeklinde yaz. AI otomatik dönüştürür."
                             style="width:100%; background:var(--ios-card); border:1.5px solid var(--ios-border); border-radius:9px; padding:9px 12px; font-size:13px; color:var(--ios-text); outline:none; min-height:90px; resize:vertical; line-height:1.6; transition:border-color 0.2s;"
                             onfocus="this.style.borderColor='#AF52DE'" onblur="this.style.borderColor='var(--ios-border)'"></textarea>
+                        <!-- Fotoğraf tarama butonu -->
+                        <input type="file" class="ifade-foto-input" accept="image/*" capture="environment" style="display:none;">
+                        <button class="ifade-foto-btn" onclick="ifadeFotoSec(this)"
+                            style="margin-top:8px; width:100%; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:13px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;">
+                            <i class="fa-solid fa-camera"></i> İfade Tutanağını Tara
+                        </button>
                     </div>
                 </div>
                 <div style="display:flex; gap:8px; margin-top:12px;">
@@ -3382,19 +3388,124 @@
         const div = document.createElement("div");
         div.className = "ifade-blok";
         div.dataset.index = ifadeSayisi;
+        div.style.cssText = "background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:12px; padding:12px;";
         div.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <label style="font-size:12px; font-weight:700; color:var(--ios-text);">İfade ${ifadeSayisi}</label>
-                <select class="ifade-sifat" style="font-size:12px; padding:4px 8px; border-radius:8px; border:1px solid var(--ios-border); background:var(--ios-card);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span style="font-size:11px; font-weight:800; color:#AF52DE; background:rgba(175,82,222,0.12); padding:4px 12px; border-radius:20px; letter-spacing:0.3px;">İFADE ${ifadeSayisi}</span>
+                <select class="ifade-sifat" style="font-size:12px; padding:6px 10px; border-radius:8px; border:1.5px solid var(--ios-border); background:var(--ios-card); color:var(--ios-text); outline:none; font-weight:600;">
                     ${sifatSecenekleri}
                 </select>
             </div>
-            <input type="text" class="ifade-ad" placeholder="Ad Soyad" style="margin-bottom:6px;">
-            <textarea class="ifade-metin" placeholder="Ham ifade metni" style="min-height:100px; resize:vertical;"></textarea>
+            <input type="text" class="ifade-ad" placeholder="Ad Soyad"
+                style="width:100%; background:var(--ios-card); border:1.5px solid var(--ios-border); border-radius:9px; padding:9px 12px; font-size:14px; color:var(--ios-text); outline:none; margin-bottom:8px; transition:border-color 0.2s;"
+                onfocus="this.style.borderColor='#AF52DE'" onblur="this.style.borderColor='var(--ios-border)'">
+            <textarea class="ifade-metin" placeholder="Ham ifade — 'yaptım, gittim, söyledim' şeklinde yaz."
+                style="width:100%; background:var(--ios-card); border:1.5px solid var(--ios-border); border-radius:9px; padding:9px 12px; font-size:13px; color:var(--ios-text); outline:none; min-height:90px; resize:vertical; line-height:1.5; transition:border-color 0.2s;"
+                onfocus="this.style.borderColor='#AF52DE'" onblur="this.style.borderColor='var(--ios-border)'"></textarea>
+            <input type="file" class="ifade-foto-input" accept="image/*" capture="environment" style="display:none;">
+            <button class="ifade-foto-btn" onclick="ifadeFotoSec(this)"
+                style="margin-top:8px; width:100%; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:13px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <i class="fa-solid fa-camera"></i> İfade Tutanağını Tara
+            </button>
         `;
         container.appendChild(div);
         document.getElementById("ifadeCikarBtn").style.display = ifadeSayisi > 1 ? "block" : "none";
         document.getElementById("ifadeEkleBtn").style.display = ifadeSayisi >= MAX_IFADE ? "none" : "block";
+    }
+
+    // Fotoğraf seçici — butona tıklayınca file input'u tetikle
+    function ifadeFotoSec(btn) {
+        const blok = btn.closest('.ifade-blok');
+        const input = blok.querySelector('.ifade-foto-input');
+        input.onchange = (e) => ifadeFotoOku(e, blok);
+        input.click();
+    }
+
+    // Fotoğrafı oku ve AI'a gönder
+    async function ifadeFotoOku(e, blok) {
+        const dosya = e.target.files[0];
+        if(!dosya) return;
+
+        const btn = blok.querySelector('.ifade-foto-btn');
+        const textarea = blok.querySelector('.ifade-metin');
+        const adInput = blok.querySelector('.ifade-ad');
+
+        // Buton yükleniyor haline geçsin
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Taranıyor...';
+        btn.style.opacity = '0.7';
+        btn.style.pointerEvents = 'none';
+
+        try {
+            // Fotoğrafı base64'e çevir
+            const base64 = await new Promise((res, rej) => {
+                const reader = new FileReader();
+                reader.onload = () => res(reader.result.split(',')[1]);
+                reader.onerror = rej;
+                reader.readAsDataURL(dosya);
+            });
+
+            const mediaType = dosya.type || 'image/jpeg';
+
+            const response = await fetch(AI_PROXY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'claude-haiku-4-5-20251001',
+                    max_tokens: 2000,
+                    messages: [{
+                        role: 'user',
+                        content: [
+                            {
+                                type: 'image',
+                                source: { type: 'base64', media_type: mediaType, data: base64 }
+                            },
+                            {
+                                type: 'text',
+                                text: `Bu bir polis ifade tutanağının fotoğrafıdır. Görevlerin:
+
+1. Eğer tutanakta ifade sahibinin adı soyadı yazıyorsa, bul ve sadece AD SOYAD olarak yaz (başka hiçbir şey ekleme).
+2. İfade metnini çıkar: "alınan ifadesinde" veya "ifadesinde" kelimesinden sonraki kısmı al. "beyan etmiştir", "dedi", "ifade etti" gibi bitişe kadar olan kısmı al.
+3. İfade metni birinci şahıs (ben/benim) ise olduğu gibi bırak — zaten ham ifade olarak kullanılacak.
+
+Yanıtını YALNIZCA şu JSON formatında ver, başka hiçbir şey yazma:
+{"ad": "Ad Soyad veya boş string", "metin": "ifade metni"}
+
+Eğer tutanakta ifade metni bulamazsan metin alanını boş bırak.`
+                            }
+                        ]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            const text = data.content?.map(c => c.text || '').join('') || '';
+
+            // JSON parse et
+            const temiz = text.replace(/```json|```/g, '').trim();
+            const parsed = JSON.parse(temiz);
+
+            if(parsed.ad && !adInput.value.trim()) {
+                adInput.value = parsed.ad;
+            }
+            if(parsed.metin) {
+                textarea.value = parsed.metin;
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Tarama Tamamlandı';
+            btn.style.background = 'linear-gradient(135deg,rgba(52,199,89,0.15),rgba(52,199,89,0.08))';
+            btn.style.borderColor = 'rgba(52,199,89,0.4)';
+            btn.style.color = 'var(--ios-green)';
+
+        } catch(err) {
+            console.error('Fotoğraf tarama hatası:', err);
+            btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Hata — Tekrar Dene';
+            btn.style.color = 'var(--ios-red)';
+            btn.style.borderColor = 'rgba(255,59,48,0.4)';
+        } finally {
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+            e.target.value = '';
+        }
     }
 
     function ifadeCikar() {
