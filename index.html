@@ -1621,6 +1621,7 @@
         } else if(sekme === 'fezleke') {
             document.getElementById("bBtn8").classList.add("active");
             document.getElementById("fezlekeBolumu").style.display = "block";
+            setTimeout(fezlekeInputlariBagla, 50);
         } else if(sekme === 'yonetim') {
             document.getElementById("bBtn4").classList.add("active");
             document.getElementById("yonetimBolumu").style.display = "block";
@@ -3563,13 +3564,22 @@
     }
 
     // Input'lara event listener ekle — önizleme anlık güncellensin
-    document.addEventListener('DOMContentLoaded', () => {
+    function fezlekeInputlariBagla() {
         ['fzTarih','fzSaat','fzYer','fzSucNo','fzSucVasfi'].forEach(id => {
             const el = document.getElementById(id);
-            if(el) el.addEventListener('input', girisOnizlemeGuncelle);
+            if(el) {
+                el.removeEventListener('input', girisOnizlemeGuncelle);
+                el.addEventListener('input', girisOnizlemeGuncelle);
+            }
         });
         girisOnizlemeGuncelle();
-    });
+    }
+
+    // Fezleke sekmesine geçilince çalıştır
+    const _eskiSekmeDegistir = window.sekmeDegistir;
+    window.sekmeDegistirFezleke = function() {
+        setTimeout(fezlekeInputlariBagla, 100);
+    };
 
     async function fezlekeOlustur() {
         const tarih = document.getElementById("fzTarih").value.trim();
