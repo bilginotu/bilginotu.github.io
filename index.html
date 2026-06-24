@@ -1101,34 +1101,41 @@
                 <div style="display:flex; gap:10px;">
                     <div style="flex:1;">
                         <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">📅 Tarih</div>
-                        <input type="text" id="fzTarih" placeholder="08.06.2026"
+                        <input type="text" id="fzTarih" placeholder="23.06.2026"
                             style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; transition:border-color 0.2s;"
                             onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'">
                     </div>
                     <div style="flex:1;">
                         <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">🕐 Saat</div>
-                        <input type="text" id="fzSaat" placeholder="10:00"
+                        <input type="text" id="fzSaat" placeholder="08:00"
                             style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; transition:border-color 0.2s;"
                             onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'">
                     </div>
                 </div>
                 <div>
                     <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">📍 Olay Yeri / Adres</div>
-                    <input type="text" id="fzYer" placeholder="Esentepe Mh. Dodurga/ÇORUM"
+                    <input type="text" id="fzYer" placeholder="Esentepe Mahallesi Bayındırlık Caddesi No:4/2 Dodurga/ÇORUM"
                         style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; transition:border-color 0.2s;"
                         onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'">
                 </div>
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">⚖️ Suç Vasfı / Olay Türü</div>
-                    <input type="text" id="fzSucVasfi" placeholder="Aile Hukukundan Kaynaklanan Yükümlülüğün İhlali"
-                        style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; transition:border-color 0.2s;"
-                        onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'">
+                <div style="display:flex; gap:10px;">
+                    <div style="flex:1;">
+                        <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">🔢 Suç No</div>
+                        <input type="text" id="fzSucNo" placeholder="2026/28"
+                            style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; transition:border-color 0.2s;"
+                            onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'">
+                    </div>
+                    <div style="flex:2;">
+                        <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">⚖️ Suç Vasfı / Olay Türü</div>
+                        <input type="text" id="fzSucVasfi" placeholder="Hakaret"
+                            style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; transition:border-color 0.2s;"
+                            onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'">
+                    </div>
                 </div>
-                <div>
-                    <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">📝 Giriş Açıklaması <span style="font-weight:400; text-transform:none;">(opsiyonel)</span></div>
-                    <textarea id="fzGirisMetni" placeholder="Boş bırakırsan AI otomatik oluşturur..."
-                        style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; min-height:65px; resize:vertical; transition:border-color 0.2s;"
-                        onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'"></textarea>
+                <!-- Giriş metni önizleme — sabit kalıp -->
+                <div style="background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:12px; font-size:13px; color:var(--ios-text-mut); line-height:1.6;">
+                    <div style="font-size:10px; font-weight:700; color:var(--ios-blue); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px;">📋 Oluşturulacak Giriş Metni</div>
+                    <span id="girisOnizleme" style="color:var(--ios-text); font-style:italic; font-size:13px;"></span>
                 </div>
             </div>
         </div>
@@ -3543,14 +3550,39 @@
 
     const AI_PROXY = 'https://dry-poetry-ac48.yusuf-aykac.workers.dev/ai';
 
+    // Giriş önizlemesini gerçek zamanlı güncelle
+    function girisOnizlemeGuncelle() {
+        const tarih = document.getElementById("fzTarih").value.trim() || '"tarih"';
+        const saat = document.getElementById("fzSaat").value.trim() || '"saat"';
+        const yer = document.getElementById("fzYer").value.trim() || '"adres"';
+        const sucNo = document.getElementById("fzSucNo").value.trim();
+        const sucVasfi = document.getElementById("fzSucVasfi").value.trim() || '"suç vasfı"';
+        const sucNoBolumu = sucNo ? ` ${sucNo} suç nolu` : '';
+        const el = document.getElementById("girisOnizleme");
+        if(el) el.innerText = `"${tarih}" günü saat "${saat}" sıralarında "${yer}" sayılı adreste meydana gelen${sucNoBolumu} "${sucVasfi}" olayı ile ilgili olarak günün Nöbetçi Cumhuriyet Savcısı aranarak alınan talimatlar doğrultusunda yapılan tahkikat kapsamında;`;
+    }
+
+    // Input'lara event listener ekle — önizleme anlık güncellensin
+    document.addEventListener('DOMContentLoaded', () => {
+        ['fzTarih','fzSaat','fzYer','fzSucNo','fzSucVasfi'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.addEventListener('input', girisOnizlemeGuncelle);
+        });
+        girisOnizlemeGuncelle();
+    });
+
     async function fezlekeOlustur() {
         const tarih = document.getElementById("fzTarih").value.trim();
         const saat = document.getElementById("fzSaat").value.trim();
         const yer = document.getElementById("fzYer").value.trim();
+        const sucNo = document.getElementById("fzSucNo").value.trim();
         const sucVasfi = document.getElementById("fzSucVasfi").value.trim();
-        const girisMetni = document.getElementById("fzGirisMetni").value.trim();
         const doktorRaporu = document.getElementById("fzDoktorRaporu").value.trim();
         const savciTalimati = document.getElementById("fzSavciTalimati").value.trim();
+
+        // Sabit giriş kalıbı — AI yazmayacak, biz oluşturuyoruz
+        const sucNoBolumu = sucNo ? ` ${sucNo} suç nolu` : '';
+        const girisKalibi = `        "${tarih}" günü saat "${saat}" sıralarında "${yer}" sayılı adreste meydana gelen${sucNoBolumu} "${sucVasfi}" olayı ile ilgili olarak günün Nöbetçi Cumhuriyet Savcısı aranarak alınan talimatlar doğrultusunda yapılan tahkikat kapsamında;`;
 
         const ifadeler = [];
         document.querySelectorAll(".ifade-blok").forEach((blok, i) => {
@@ -3577,44 +3609,30 @@
             `--- İFADE ${f.no} (${f.sifat}: ${f.ad || 'İsimsiz'}) ---\n${f.metin || '(İfade metni girilmedi)'}`
         ).join("\n\n");
 
-        const prompt = `Aşağıdaki bilgileri kullanarak Türk Emniyet Teşkilatı'nın standart olay özeti (fezleke) formatında resmi bir metin yaz.
-
-OLAY BİLGİLERİ:
-- Tarih: ${tarih}
-- Saat: ${saat || 'belirtilmemiş'}
-- Yer: ${yer}
-- Suç Vasfı: ${sucVasfi}${girisMetni ? `\n- Ek bilgi: ${girisMetni}` : ''}
+        const prompt = `Aşağıdaki ham ifadeleri resmi polis fezleke formatına çevir. GİRİŞ PARAGRAFI ZATEN YAZILMIŞ — sen sadece ifade paragraflarını ve son paragrafı yazacaksın.
 
 HAM İFADELER:
-${ifadeBloklari}${doktorRaporu ? `\n\nDOKTOR RAPORU:\n${doktorRaporu}` : ''}${savciTalimati ? `\n\nSAVCI TALİMATI:\n${savciTalimati}` : ''}
+${ifadeBloklari}${doktorRaporu ? `\n\nDOKTOR RAPORU:\n${doktorRaporu}` : ''}
 
-ZORUNLU FORMAT KURALLARI — HİÇBİR KURAL ATLANAMAZZ:
+ZORUNLU FORMAT KURALLARI:
 
-1. YALNIZCA DÜZ METİN yaz. Başlık, madde işareti, tire, yıldız, köşeli parantez, numaralı liste YASAK. Markdown YASAK.
+1. YALNIZCA DÜZ METİN. Başlık, madde işareti, tire, yıldız, markdown YASAK.
 
-2. GİRİŞ PARAGRAFI — tek paragraf, sola girintisiz, şu şablona %100 uy:
-   "${tarih} günü saat ${saat || '...'} sıralarında idaremiz ${yer} adresinde meydana gelen ${sucVasfi} konusuyla ilgili olarak yapılan tahkikatta; günün Nöbetçi Cumhuriyet Savcısının Kamera ve Tanık araştırması yapılması talimatına istinaden,"
-   Devamında olayı 2-3 cümle özetle. Bu paragrafın son cümlesi noktalı virgül (;) veya virgülle bitmeli.
-
-3. İFADE PARAGRAFLARı — her ifade sahibi için ayrı paragraf:
+2. İFADE PARAGRAFLARı — her ifade sahibi için ayrı paragraf:
    - Her paragraf TAM OLARAK şu kalıpla başlamalı: "[Sıfat] [AD SOYAD] alınan ifadesinde;"
-   - Soyad BÜYÜK harf, ad normal.
+   - Soyad BÜYÜK harf, ad normal harf.
    - Ham ifadedeki 1. şahıs anlatımı 3. şahısa çevir: "yaptım→yaptığını", "gittim→gittiğini", "söyledim→söylediğini", "biliyorum→bildiğini", "görmedim→görmediğini", "değilim→olmadığını".
    - Her paragraf MUTLAKA "beyan etmiştir." ile bitmeli.
 
-4. DOKTOR RAPORU varsa — ayrı paragraf olarak şu kalıpla yaz:
-   "[Hastane adı] tarafından düzenlenen ... tarihli raporda; ..."
+3. DOKTOR RAPORU varsa — ayrı paragraf: "[Hastane adı] tarafından düzenlenen raporda; ..."
 
-5. SON PARAGRAF — savcı talimatı:
+4. SON PARAGRAF:
    ${savciTalimati ? `"${savciTalimati}"` : '"Günün Nöbetçi Cumhuriyet Savcısı ile irtibata geçilmiş, alınan talimat doğrultusunda tahkikata başlanmıştır."'}
 
-6. PARAGRAFLAR ARASI — her paragraftan sonra bir satır boş bırak.
+5. Her paragraf başında 8 boşluk bırak. Paragraflar arasında bir satır boş bırak.
 
-7. PARAGRAF GİRİNTİSİ — her paragraf başında 8 boşluk (sekiz adet boşluk karakteri) bırak.
+6. GİRİŞ PARAGRAFI YAZMA — sadece ifade paragraflarından başla.`;
 
-8. DİL — resmi Türkçe, tamamlanmış geçmiş zaman (miş'li geçmiş), edilgen yapı. Günlük konuşma dili YASAK.
-
-Sadece metni yaz, başka hiçbir şey ekleme.`;
 
         try {
             const response = await fetch(AI_PROXY, {
@@ -3623,14 +3641,16 @@ Sadece metni yaz, başka hiçbir şey ekleme.`;
                 body: JSON.stringify({
                     model: 'claude-haiku-4-5-20251001',
                     max_tokens: 4000,
-                    system: 'Sen Türk polis teşkilatında görevli deneyimli bir yazmansın. Senden istenen metinleri verilen format kurallarına harfiyen uyarak yazarsın. Hiçbir kural ihlali yapmazsın. Asla markdown, liste veya başlık kullanmazsın.',
+                    system: 'Sen Türk polis teşkilatında görevli deneyimli bir yazmansın. Senden istenen metinleri verilen format kurallarına harfiyen uyarak yazarsın. Asla markdown, liste veya başlık kullanmazsın. Giriş paragrafı zaten yazılmış — sadece ifade paragraflarını yaz.',
                     messages: [{ role: 'user', content: prompt }]
                 })
             });
             const data = await response.json();
-            const metin = data.content?.map(c => c.text || '').join('') || '';
-            if(!metin) throw new Error("Boş yanıt");
-            document.getElementById("fezlekeSonucMetin").innerText = metin;
+            const aiMetin = data.content?.map(c => c.text || '').join('') || '';
+            if(!aiMetin) throw new Error("Boş yanıt");
+            // Giriş kalıbı + AI'nın yazdığı ifadeler birleştir
+            const tamMetin = girisKalibi + '\n\n' + aiMetin.trim();
+            document.getElementById("fezlekeSonucMetin").innerText = tamMetin;
             document.getElementById("fezlekeSonucKapsayici").style.display = "block";
             setTimeout(() => document.getElementById("fezlekeSonucKapsayici").scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
         } catch(e) {
