@@ -3450,8 +3450,9 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: 'claude-haiku-4-5-20251001',
+                    model: 'claude-sonnet-4-6',
                     max_tokens: 2000,
+                    system: 'Sen Türkçe el yazısı ve baskı metinleri konusunda uzman bir OCR asistanısın. Türkçe dil bilgisini kullanarak bozuk veya eksik okunan karakterleri doğru şekilde tamamlarsın. Yanıtını her zaman geçerli JSON formatında verirsin.',
                     messages: [{
                         role: 'user',
                         content: [
@@ -3461,16 +3462,7 @@
                             },
                             {
                                 type: 'text',
-                                text: `Bu bir polis ifade tutanağının fotoğrafıdır. Görevlerin:
-
-1. Eğer tutanakta ifade sahibinin adı soyadı yazıyorsa, bul ve sadece AD SOYAD olarak yaz (başka hiçbir şey ekleme).
-2. İfade metnini çıkar: "alınan ifadesinde" veya "ifadesinde" kelimesinden sonraki kısmı al. "beyan etmiştir", "dedi", "ifade etti" gibi bitişe kadar olan kısmı al.
-3. İfade metni birinci şahıs (ben/benim) ise olduğu gibi bırak — zaten ham ifade olarak kullanılacak.
-
-Yanıtını YALNIZCA şu JSON formatında ver, başka hiçbir şey yazma:
-{"ad": "Ad Soyad veya boş string", "metin": "ifade metni"}
-
-Eğer tutanakta ifade metni bulamazsan metin alanını boş bırak.`
+                                text: `Bu bir Türk polis ifade tutanağının fotoğrafıdır.\n\nADIM 1 — DİKKATLİ OKUMA VE DÜZELTME:\nFotoğraftaki metni dikkatlice oku. Tarama kalitesi düşük olabileceğinden:\n- Türkçe karakterleri doğru tanı (ş, ğ, ü, ö, ç, ı gibi)\n- Yanlış okunan harfleri bağlamdan anlayarak düzelt\n- Türkçe kelime mantığına göre eksik veya hatalı harfleri tamamla\n- Özel isimleri, yer adlarını olduğu gibi koru\n\nADIM 2 — BİLGİLERİ ÇIKAR:\n1. İfade sahibinin adı soyadını bul (varsa)\n2. "alınan ifadesinde", "ifadesinde" veya "beyanında" kelimesinden sonrasını al. "beyan etmiştir", "dedi", "ifade etti" bitişine kadar al.\n\nYanıtını YALNIZCA şu JSON formatında ver:\n{"ad": "Ad Soyad veya bos string", "metin": "duzeltilmis ifade metni"}`
                             }
                         ]
                     }]
