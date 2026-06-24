@@ -1159,12 +1159,19 @@
                         <textarea class="ifade-metin" placeholder="Ham ifade — 'yaptım, gittim, söyledim' şeklinde yaz. AI otomatik dönüştürür."
                             style="width:100%; background:var(--ios-card); border:1.5px solid var(--ios-border); border-radius:9px; padding:9px 12px; font-size:13px; color:var(--ios-text); outline:none; min-height:90px; resize:vertical; line-height:1.6; transition:border-color 0.2s;"
                             onfocus="this.style.borderColor='#AF52DE'" onblur="this.style.borderColor='var(--ios-border)'"></textarea>
-                        <!-- Fotoğraf tarama butonu -->
+                        <!-- Fotoğraf tarama butonları -->
                         <input type="file" class="ifade-foto-input" accept="image/*" capture="environment" style="display:none;">
-                        <button class="ifade-foto-btn" onclick="ifadeFotoSec(this)"
-                            style="margin-top:8px; width:100%; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:13px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; transition:all 0.2s;">
-                            <i class="fa-solid fa-camera"></i> İfade Tutanağını Tara
-                        </button>
+                        <input type="file" class="ifade-galeri-input" accept="image/*" style="display:none;">
+                        <div style="display:flex; gap:8px; margin-top:8px;">
+                            <button class="ifade-foto-btn" onclick="ifadeFotoSec(this)"
+                                style="flex:1; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:12px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+                                <i class="fa-solid fa-camera"></i> Kamera ile Tara
+                            </button>
+                            <button class="ifade-galeri-btn" onclick="ifadeGaleriSec(this)"
+                                style="flex:1; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:12px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all 0.2s;">
+                                <i class="fa-solid fa-image"></i> Galeriden Seç
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div style="display:flex; gap:8px; margin-top:12px;">
@@ -3403,20 +3410,35 @@
                 style="width:100%; background:var(--ios-card); border:1.5px solid var(--ios-border); border-radius:9px; padding:9px 12px; font-size:13px; color:var(--ios-text); outline:none; min-height:90px; resize:vertical; line-height:1.5; transition:border-color 0.2s;"
                 onfocus="this.style.borderColor='#AF52DE'" onblur="this.style.borderColor='var(--ios-border)'"></textarea>
             <input type="file" class="ifade-foto-input" accept="image/*" capture="environment" style="display:none;">
-            <button class="ifade-foto-btn" onclick="ifadeFotoSec(this)"
-                style="margin-top:8px; width:100%; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:13px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
-                <i class="fa-solid fa-camera"></i> İfade Tutanağını Tara
-            </button>
+            <input type="file" class="ifade-galeri-input" accept="image/*" style="display:none;">
+            <div style="display:flex; gap:8px; margin-top:8px;">
+                <button class="ifade-foto-btn" onclick="ifadeFotoSec(this)"
+                    style="flex:1; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:12px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                    <i class="fa-solid fa-camera"></i> Kamera ile Tara
+                </button>
+                <button class="ifade-galeri-btn" onclick="ifadeGaleriSec(this)"
+                    style="flex:1; background:linear-gradient(135deg,rgba(175,82,222,0.12),rgba(175,82,222,0.06)); border:1.5px dashed rgba(175,82,222,0.4); border-radius:9px; padding:10px; font-size:12px; font-weight:700; color:#AF52DE; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                    <i class="fa-solid fa-image"></i> Galeriden Seç
+                </button>
+            </div>
         `;
         container.appendChild(div);
         document.getElementById("ifadeCikarBtn").style.display = ifadeSayisi > 1 ? "block" : "none";
         document.getElementById("ifadeEkleBtn").style.display = ifadeSayisi >= MAX_IFADE ? "none" : "block";
     }
 
-    // Fotoğraf seçici — butona tıklayınca file input'u tetikle
+    // Kamera ile fotoğraf çek
     function ifadeFotoSec(btn) {
         const blok = btn.closest('.ifade-blok');
         const input = blok.querySelector('.ifade-foto-input');
+        input.onchange = (e) => ifadeFotoOku(e, blok);
+        input.click();
+    }
+
+    // Galeriden fotoğraf seç
+    function ifadeGaleriSec(btn) {
+        const blok = btn.closest('.ifade-blok');
+        const input = blok.querySelector('.ifade-galeri-input');
         input.onchange = (e) => ifadeFotoOku(e, blok);
         input.click();
     }
@@ -3426,14 +3448,18 @@
         const dosya = e.target.files[0];
         if(!dosya) return;
 
-        const btn = blok.querySelector('.ifade-foto-btn');
+        const btn = blok.querySelector('.ifade-foto-btn') || blok.querySelector('.ifade-galeri-btn');
         const textarea = blok.querySelector('.ifade-metin');
         const adInput = blok.querySelector('.ifade-ad');
+        const allBtns = blok.querySelectorAll('.ifade-foto-btn, .ifade-galeri-btn');
 
-        // Buton yükleniyor haline geçsin
-        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Taranıyor...';
-        btn.style.opacity = '0.7';
-        btn.style.pointerEvents = 'none';
+        // Tüm butonları yükleniyor haline getir
+        allBtns.forEach(b => {
+            b.style.opacity = '0.7';
+            b.style.pointerEvents = 'none';
+        });
+        const clickedBtn = e.target.closest('button') || btn;
+        if(clickedBtn) clickedBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Taranıyor...';
 
         try {
             // Fotoğrafı base64'e çevir
@@ -3490,12 +3516,18 @@
 
         } catch(err) {
             console.error('Fotoğraf tarama hatası:', err);
-            btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Hata — Tekrar Dene';
-            btn.style.color = 'var(--ios-red)';
-            btn.style.borderColor = 'rgba(255,59,48,0.4)';
+            allBtns.forEach(b => {
+                b.innerHTML = b.classList.contains('ifade-foto-btn') 
+                    ? '<i class="fa-solid fa-camera"></i> Kamera ile Tara'
+                    : '<i class="fa-solid fa-image"></i> Galeriden Seç';
+                b.style.color = 'var(--ios-red)';
+                b.style.borderColor = 'rgba(255,59,48,0.4)';
+            });
         } finally {
-            btn.style.opacity = '1';
-            btn.style.pointerEvents = 'auto';
+            allBtns.forEach(b => {
+                b.style.opacity = '1';
+                b.style.pointerEvents = 'auto';
+            });
             e.target.value = '';
         }
     }
@@ -3574,7 +3606,7 @@ ZORUNLU FORMAT KURALLARI — HİÇBİR KURAL ATLANAMAZZ:
    "[Hastane adı] tarafından düzenlenen ... tarihli raporda; ..."
 
 5. SON PARAGRAF — savcı talimatı:
-   ${savciTalimati ? `"${savciTalimati}"` : '"Günün Nöbetçi Cumhuriyet Savcısı Sayın [...] ile irtibata geçilmiş, alınan talimat doğrultusunda tahkikata başlanmıştır."'}
+   ${savciTalimati ? `"${savciTalimati}"` : '"Günün Nöbetçi Cumhuriyet Savcısı ile irtibata geçilmiş, alınan talimat doğrultusunda tahkikata başlanmıştır."'}
 
 6. PARAGRAFLAR ARASI — her paragraftan sonra bir satır boş bırak.
 
