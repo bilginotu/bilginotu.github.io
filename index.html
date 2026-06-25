@@ -155,6 +155,76 @@
         .bottom-tab-btn.active { color: var(--ios-blue); }
         .bottom-tab-btn.active i { transform: scale(1.1); }
 
+        /* GÜNCELLEME MODALI */
+        #guncelleModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 99991;
+            display: flex; justify-content: center; align-items: center;
+            padding: 24px;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #guncelleModal.goster { opacity: 1; pointer-events: auto; }
+        .guncelle-karti {
+            background: var(--ios-card);
+            border-radius: 22px;
+            width: 100%; max-width: 340px;
+            box-shadow: 0 28px 72px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transform: scale(0.86) translateY(20px);
+            transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        #guncelleModal.goster .guncelle-karti { transform: scale(1) translateY(0); }
+        .guncelle-ust {
+            background: linear-gradient(135deg, #0A84FF, #0055CC);
+            padding: 24px 20px 20px; text-align: center;
+        }
+        .guncelle-ust-ikon {
+            width: 56px; height: 56px;
+            background: rgba(255,255,255,0.18);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .guncelle-ust-ikon i { font-size: 24px; color: white; }
+        .guncelle-ust-baslik { font-size: 18px; font-weight: 800; color: white; letter-spacing: -0.4px; }
+        .guncelle-ust-versiyon {
+            display: inline-block; margin-top: 6px;
+            background: rgba(255,255,255,0.2); border-radius: 20px;
+            padding: 3px 12px; font-size: 12px; font-weight: 700;
+            color: rgba(255,255,255,0.9); letter-spacing: 0.3px;
+        }
+        .guncelle-liste {
+            padding: 16px 18px;
+            max-height: 260px; overflow-y: auto;
+            border-bottom: 1px solid var(--ios-border);
+        }
+        .guncelle-liste-ust {
+            font-size: 10px; font-weight: 800; color: var(--ios-text-mut);
+            text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 10px;
+        }
+        .guncelle-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 9px 0; border-bottom: 1px solid var(--ios-border);
+            font-size: 14px; color: var(--ios-text); line-height: 1.4;
+        }
+        .guncelle-item:last-child { border-bottom: none; padding-bottom: 2px; }
+        .guncelle-item-ikon {
+            width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 11px; margin-top: 1px;
+        }
+        .guncelle-item-ikon.yeni        { background: rgba(52,199,89,0.12);  color: var(--ios-green); }
+        .guncelle-item-ikon.iyilestirme { background: rgba(0,122,255,0.12);  color: var(--ios-blue); }
+        .guncelle-item-ikon.duzeltme    { background: rgba(255,149,0,0.12);  color: var(--ios-orange); }
+        .guncelle-tamam-btn {
+            width: 100%; border: none; background: transparent;
+            padding: 16px; font-size: 17px; font-weight: 700;
+            color: var(--ios-blue); cursor: pointer; transition: background 0.15s;
+        }
+        .guncelle-tamam-btn:active { background: var(--ios-input-bg); }
+
         /* CANLI DUYURU BANDI */
         #globalDuyuru { 
             background: linear-gradient(135deg, #FF3B30, #FF6B35);
@@ -454,6 +524,68 @@
             #previewEditArea { box-shadow: none; padding: 0 !important; max-width: none; min-height: auto; width: 100%; margin: 0;}
         }
 
+        /* DUYURU BİLDİRİM MODALI — iOS stili */
+        #duyuruModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.45); z-index: 99990;
+            display: flex; justify-content: center; align-items: center;
+            padding: 24px;
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+        #duyuruModal.goster {
+            opacity: 1; pointer-events: auto;
+        }
+        .duyuru-karti {
+            background: var(--ios-card);
+            border-radius: 20px;
+            padding: 0;
+            width: 100%; max-width: 320px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transform: scale(0.88) translateY(16px);
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        #duyuruModal.goster .duyuru-karti {
+            transform: scale(1) translateY(0);
+        }
+        .duyuru-karti-ust {
+            background: linear-gradient(135deg, #FF3B30, #FF6B35);
+            padding: 22px 20px 18px;
+            text-align: center;
+        }
+        .duyuru-karti-ikon {
+            width: 52px; height: 52px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .duyuru-karti-ikon i { font-size: 22px; color: white; }
+        .duyuru-karti-baslik {
+            font-size: 17px; font-weight: 700; color: white;
+            letter-spacing: -0.3px; margin-bottom: 2px;
+        }
+        .duyuru-karti-etiket {
+            font-size: 11px; font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase; letter-spacing: 0.6px;
+        }
+        .duyuru-karti-metin {
+            padding: 18px 20px;
+            font-size: 15px; color: var(--ios-text);
+            line-height: 1.55; text-align: center;
+            border-bottom: 1px solid var(--ios-border);
+        }
+        .duyuru-karti-btn {
+            width: 100%; border: none; background: transparent;
+            padding: 16px; font-size: 17px; font-weight: 700;
+            color: var(--ios-blue); cursor: pointer;
+            transition: background 0.15s;
+        }
+        .duyuru-karti-btn:active { background: var(--ios-input-bg); }
+
         /* CUSTOM MODAL */
         #bnModal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.45); z-index:99999; display:flex; justify-content:center; align-items:center; padding:20px; backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
         #bnModal.hidden { display:none !important; }
@@ -470,6 +602,39 @@
     </style>
 </head>
 <body>
+
+<!-- GÜNCELLEME MODALI -->
+<div id="guncelleModal">
+    <div class="guncelle-karti">
+        <div class="guncelle-ust">
+            <div class="guncelle-ust-ikon">
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <div class="guncelle-ust-baslik">Yenilikler</div>
+            <div class="guncelle-ust-versiyon" id="guncelleVersiyon"></div>
+        </div>
+        <div class="guncelle-liste">
+            <div class="guncelle-liste-ust">Bu sürümde</div>
+            <div id="guncelleListesi"></div>
+        </div>
+        <button class="guncelle-tamam-btn" onclick="guncelleModalKapat()">Harika, Anladım!</button>
+    </div>
+</div>
+
+<!-- DUYURU BİLDİRİM MODALI -->
+<div id="duyuruModal">
+    <div class="duyuru-karti">
+        <div class="duyuru-karti-ust">
+            <div class="duyuru-karti-ikon">
+                <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <div class="duyuru-karti-baslik">Duyuru</div>
+            <div class="duyuru-karti-etiket">Dodurga İlçe Emniyet</div>
+        </div>
+        <div class="duyuru-karti-metin" id="duyuruModalMetni"></div>
+        <button class="duyuru-karti-btn" onclick="duyuruModalKapat()">Tamam</button>
+    </div>
+</div>
 
 <!-- CUSTOM MODAL -->
 <div id="bnModal" class="hidden">
@@ -532,7 +697,7 @@
 
     <div class="watermark-overlay"></div>
     
-    <div id="globalDuyuru" class="hidden">
+    <div id="globalDuyuru" class="hidden" style="display:none!important;">
         <i class="fa-solid fa-bell fa-shake"></i>
         <span id="duyuruMetni" style="flex:1;">...</span>
     </div>
@@ -1052,6 +1217,30 @@
                         <button class="bot-btn" style="margin:0; background:transparent; border:1.5px solid var(--ios-red); color:var(--ios-red); box-shadow:none;" onclick="duyuruKaldir()">Yayından Kaldır</button>
                         <button class="bot-btn" style="background:linear-gradient(135deg,#FF3B30,#FF6B35); margin:0; box-shadow:var(--shadow-red);" onclick="duyuruYayinla()">Tümüne Gönder</button>
                     </div>
+                </div>
+            </div>
+
+            <!-- GÜNCELLEME YAYINLA KARTI -->
+            <div style="border-radius:14px; overflow:hidden; border:1.5px solid rgba(0,122,255,0.25); margin-bottom:14px;">
+                <div style="background:linear-gradient(135deg,rgba(0,122,255,0.12),rgba(0,122,255,0.06)); padding:10px 14px; border-bottom:1px solid rgba(0,122,255,0.15); display:flex; align-items:center; gap:7px;">
+                    <i class="fa-solid fa-star" style="color:var(--ios-blue); font-size:13px;"></i>
+                    <span style="font-size:11px; font-weight:800; color:var(--ios-blue); text-transform:uppercase; letter-spacing:0.8px;">Güncelleme Yayınla</span>
+                </div>
+                <div style="background:var(--ios-card); padding:14px; display:flex; flex-direction:column; gap:10px;">
+                    <div>
+                        <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Versiyon Numarası</div>
+                        <input type="text" id="guncelleVersiyonInput" placeholder="Örn: 2.0.0" style="background:var(--ios-input-bg); border-radius:10px; border:none; padding:10px 12px; font-size:15px; font-weight:700; color:var(--ios-text); width:100%; outline:none;">
+                    </div>
+                    <div>
+                        <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Yenilikler <span style="font-weight:400; color:var(--ios-text-mut); text-transform:none;">(her satır ayrı madde)</span></div>
+                        <textarea id="guncelleNotlarInput" placeholder="★ Fezleke bölümüne yeni özellik eklendi&#10;↑ Tutanak asistanı hızlandırıldı&#10;✓ Badge hizalama düzeltildi" style="background:var(--ios-input-bg); min-height:100px; border-radius:10px; font-size:13px; line-height:1.6;"></textarea>
+                        <div style="font-size:11px; color:var(--ios-text-mut); margin-top:5px; line-height:1.5;">
+                            Satır başına <b style="color:var(--ios-green);">★</b> yeni özellik &nbsp;·&nbsp; <b style="color:var(--ios-blue);">↑</b> iyileştirme &nbsp;·&nbsp; <b style="color:var(--ios-orange);">✓</b> düzeltme
+                        </div>
+                    </div>
+                    <button class="bot-btn" style="background:linear-gradient(135deg,#0A84FF,#0055CC); margin:0; box-shadow:0 4px 15px rgba(0,122,255,0.3);" onclick="guncelleYayinla()">
+                        <i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i>Tüm Kullanıcılara Yayınla
+                    </button>
                 </div>
             </div>
 
@@ -3000,14 +3189,61 @@
         
         const duyuruDocRef = doc(db, "ayarlar", "genel_duyuru");
         onSnapshot(duyuruDocRef, (docSnap) => {
-            const duyuruKutusu = document.getElementById("globalDuyuru");
-            const duyuruMetni = document.getElementById("duyuruMetni");
-            if (docSnap.exists() && docSnap.data().aktif && docSnap.data().mesaj) {
-                duyuruMetni.innerText = docSnap.data().mesaj;
-                duyuruKutusu.classList.remove("hidden");
-            } else {
-                duyuruKutusu.classList.add("hidden");
+            if (!docSnap.exists() || !docSnap.data().aktif || !docSnap.data().mesaj) return;
+
+            const data = docSnap.data();
+            const mesaj = data.mesaj;
+            const duyuruTs = data.tarih?.seconds ? String(data.tarih.seconds) : String(data.tarih || "");
+            const sicil = localStorage.getItem('aktif_sicil') || 'misafir';
+            const gorulduKey = `duyuru_goruldu_${sicil}_${duyuruTs}`;
+
+            if (localStorage.getItem(gorulduKey) === 'true') return;
+
+            document.getElementById('duyuruModalMetni').innerText = mesaj;
+            window._duyuruGorulduKey = gorulduKey;
+            setTimeout(() => {
+                document.getElementById('duyuruModal').classList.add('goster');
+            }, 600);
+        });
+
+        // Güncelleme dokümanını dinle
+        const guncelleDocRef = doc(db, "ayarlar", "uygulama_guncelleme");
+        onSnapshot(guncelleDocRef, (docSnap) => {
+            if (!docSnap.exists() || !docSnap.data().aktif) return;
+
+            const data = docSnap.data();
+            const versiyon = data.versiyon || '';
+            const notlar = data.notlar || '';
+            const sicil = localStorage.getItem('aktif_sicil') || 'misafir';
+            const gorulduKey = `guncelle_goruldu_${sicil}_${versiyon}`;
+
+            if (localStorage.getItem(gorulduKey) === 'true') return;
+
+            // Versiyon etiketini yaz
+            const versiyonEl = document.getElementById('guncelleVersiyon');
+            if (versiyonEl) versiyonEl.innerText = 'v' + versiyon;
+
+            // Satırları parse edip liste oluştur
+            const ikonMap = { '★': 'yeni', '↑': 'iyilestirme', '✓': 'duzeltme' };
+            const satirlar = notlar.split('\n').map(s => s.trim()).filter(s => s);
+            const liste = document.getElementById('guncelleListesi');
+            if (liste) {
+                liste.innerHTML = satirlar.map(satir => {
+                    const ilkKar = satir.charAt(0);
+                    const tip = ikonMap[ilkKar] || 'iyilestirme';
+                    const ikon = ikonMap[ilkKar] ? ilkKar : '↑';
+                    const metin = ikonMap[ilkKar] ? satir.slice(1).trim() : satir;
+                    return `<div class="guncelle-item">
+                        <div class="guncelle-item-ikon ${tip}">${ikon}</div>
+                        <span>${metin}</span>
+                    </div>`;
+                }).join('');
             }
+
+            window._guncelleGorulduKey = gorulduKey;
+            setTimeout(() => {
+                document.getElementById('guncelleModal').classList.add('goster');
+            }, 700);
         });
 
         // Firebase hazır — admin paneli yüklenmesini tetikle
@@ -3034,6 +3270,41 @@
         }
     };
 
+    window.duyuruModalKapat = function() {
+        const modal = document.getElementById('duyuruModal');
+        modal.classList.remove('goster');
+        if (window._duyuruGorulduKey) {
+            localStorage.setItem(window._duyuruGorulduKey, 'true');
+        }
+    };
+
+    window.guncelleModalKapat = function() {
+        document.getElementById('guncelleModal').classList.remove('goster');
+        if (window._guncelleGorulduKey) {
+            localStorage.setItem(window._guncelleGorulduKey, 'true');
+        }
+    };
+
+    window.guncelleYayinla = async function() {
+        if(!window.yetkiKontrol('duyuru')) { bnAlert("Bu işlem için yetkiniz bulunmamaktadır.", "Yetkisiz"); return; }
+        const versiyon = document.getElementById('guncelleVersiyonInput').value.trim();
+        const notlar = document.getElementById('guncelleNotlarInput').value.trim();
+        if(!versiyon) { bnAlert("Versiyon numarası boş olamaz!", "Uyarı"); return; }
+        if(!notlar) { bnAlert("En az bir yenilik maddesi yazın.", "Uyarı"); return; }
+        bnConfirm(`v${versiyon} güncellemesi tüm kullanıcılara gösterilecek. Onaylıyor musunuz?`, "Güncelleme Yayınla", async () => {
+            await setDoc(doc(db, "ayarlar", "uygulama_guncelleme"), {
+                versiyon: versiyon,
+                notlar: notlar,
+                aktif: true,
+                tarih: serverTimestamp()
+            });
+            document.getElementById('guncelleVersiyonInput').value = '';
+            document.getElementById('guncelleNotlarInput').value = '';
+            bnAlert(`v${versiyon} güncellemesi yayınlandı! Kullanıcılar uygulamayı açtığında görecek.`, "Yayınlandı ✓");
+            window.logIslem("Güncelleme", `v${versiyon} güncelleme notu yayınlandı.`);
+        });
+    };
+
     window.duyuruYayinla = async function() {
         if(!window.yetkiKontrol('duyuru')) { bnAlert("Bu işlem için Duyuru yetkiniz bulunmamaktadır.", "Yetkisiz"); return; }
         const mesaj = document.getElementById("yeniDuyuruMetni").value.trim();
@@ -3041,7 +3312,7 @@
         bnConfirm("Bu duyuru tüm personelin ekranında anında görünecek. Onaylıyor musunuz?", "Duyuru Yayınla", async () => {
             await setDoc(doc(db, "ayarlar", "genel_duyuru"), { mesaj: mesaj, aktif: true, tarih: serverTimestamp() });
             document.getElementById("yeniDuyuruMetni").value = "";
-            bnAlert("Duyuru başarıyla yayınlandı!", "Yayınlandı ✓");
+            bnAlert("Duyuru başarıyla yayınlandı! Personel uygulamayı açtığında görecek.", "Yayınlandı ✓");
             window.logIslem("Duyuru", "Yeni genel duyuru yayınlandı.");
         });
     };
