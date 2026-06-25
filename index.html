@@ -57,7 +57,7 @@
         
         body { background: var(--ios-bg); min-height: 100vh; padding: 14px; color: var(--ios-text); padding-bottom: 95px; transition: background 0.3s ease, color 0.3s ease; display: block; overflow-x: hidden; }
         
-        .container { max-width: 600px; margin: 0 auto; display: none; width: 100%; } 
+        .container { max-width: 600px; margin: 0 auto; display: none; width: 100%; position: relative; } 
         
         /* GİRİŞ EKRANI */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 16px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);}
@@ -208,6 +208,7 @@
             margin-bottom: 18px; 
             padding-bottom: 14px;
             border-bottom: 1px solid var(--ios-border);
+            position: relative;
         }
         h1 { font-size: 17px; font-weight: 700; margin: 0; color: var(--ios-text); display: flex; align-items: center; gap: 8px; }
         
@@ -371,6 +372,36 @@
         .developer-credit b { font-weight: 700; color: var(--ios-blue); }
         .version-tag { display: inline-block; background: var(--ios-input-bg); border: 1px solid var(--ios-border); border-radius: 6px; padding: 2px 8px; margin-left: 6px; font-size: 11px; font-weight: 700; color: var(--ios-text-mut); }
 
+        /* HEADER DEV BADGE */
+        .dev-badge {
+            position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+            font-size: 9px; font-weight: 600; color: var(--ios-text-mut);
+            letter-spacing: 0.3px; opacity: 0.55; pointer-events: none;
+            white-space: nowrap; user-select: none;
+        }
+
+        /* FEZLEKE KOTA BANNER */
+        .fezleke-kota-banner {
+            display: flex; align-items: center; gap: 10px;
+            background: var(--ios-input-bg); border: 1.5px solid var(--ios-border);
+            border-radius: 12px; padding: 10px 14px; margin-bottom: 14px;
+        }
+        .fezleke-kota-banner.kota-uyari {
+            background: rgba(255,149,0,0.08); border-color: rgba(255,149,0,0.4);
+        }
+        .fezleke-kota-banner.kota-dolu {
+            background: rgba(255,59,48,0.08); border-color: rgba(255,59,48,0.4);
+        }
+        .kota-icon { font-size: 18px; flex-shrink: 0; }
+        .kota-metin { flex: 1; }
+        .kota-metin-baslik { font-size: 12px; font-weight: 700; color: var(--ios-text); }
+        .kota-metin-alt { font-size: 11px; color: var(--ios-text-mut); margin-top: 1px; }
+        .kota-dots { display: flex; gap: 5px; margin-left: auto; flex-shrink: 0; }
+        .kota-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--ios-border); }
+        .kota-dot.dolu { background: var(--ios-blue); }
+        .kota-dot.uyari { background: var(--ios-orange); }
+        .kota-dot.bitti { background: var(--ios-red); }
+
         .sahis-card { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: var(--ios-input-bg); padding: 12px 14px; border-radius: var(--radius-sm); font-size: 14px; }
         .checklist-title { font-size: 14px; font-weight: 700; color: var(--ios-text); display: flex; justify-content: space-between; align-items: center; padding: 8px 0; cursor: pointer; }
         .check-item { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 14px; background: var(--ios-input-bg); padding: 12px 14px; border-radius: var(--radius-sm); cursor: pointer; transition: opacity 0.15s; }
@@ -506,6 +537,7 @@
                     </div>
                     <h1>Bildirim</h1>
                 </div>
+                <span class="dev-badge">developed by ysfykc</span>
                 <div class="top-btn-group">
                     <button class="archive-btn-top btn-danger" onclick="formuTemizle()"><i class="fa-solid fa-trash-can"></i></button>
                     <button class="archive-btn-top" onclick="toggleDarkMode()"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
@@ -634,6 +666,7 @@
                     </div>
                     <h1>Tutanak Asistanı</h1>
                 </div>
+                <span class="dev-badge">developed by ysfykc</span>
                 <div class="top-btn-group">
                     <button class="archive-btn-top btn-danger" onclick="tutanakTemizle()"><i class="fa-solid fa-trash-can"></i></button>
                     <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i></button>
@@ -803,6 +836,7 @@
                     <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Vardiya Takvimi</div>
                     <div style="font-size:11px; color:var(--ios-text-mut);">Çalışma takvimini görüntüle</div>
                 </div>
+                <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
             </div>
             
             <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
@@ -865,6 +899,7 @@
                     <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Cep Rehberi</div>
                     <div style="font-size:11px; color:var(--ios-text-mut);">Mevzuat ve santral rehberi</div>
                 </div>
+                <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
             </div>
             
             <div class="ios-segment-group" style="margin-bottom: 15px;">
@@ -906,6 +941,7 @@
         <div class="glass-panel">
             <div class="header-row">
                 <h1><i class="fa-solid fa-note-sticky"></i> Kişisel Notlarım</h1>
+                <span class="dev-badge">developed by ysfykc</span>
             </div>
             <p style="font-size:11px; color:var(--ios-text-mut); margin-bottom:15px; line-height:1.4;">Bu alana girdiğiniz notlar hiçbir ağa (sunucuya) gönderilmez. Doğrudan telefonunuzda ve sadece sizin sicilinize özel olarak güvenle saklanır.</p>
             
@@ -928,6 +964,7 @@
                     </div>
                     <h1>Ayarlar</h1>
                 </div>
+                <span class="dev-badge">developed by ysfykc</span>
                 <button class="archive-btn-top btn-danger" onclick="cikisYap()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
             </div>
             
@@ -980,6 +1017,7 @@
                     <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Yönetici Paneli</div>
                     <div style="font-size:11px; color:var(--ios-text-mut);">Sistem yönetimi ve istatistikler</div>
                 </div>
+                <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
             </div>
             
             <div class="stats-grid">
@@ -1088,6 +1126,20 @@
             <div>
                 <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Fezleke Asistanı</div>
                 <div style="font-size:11px; color:var(--ios-text-mut);">Bilgileri gir, 'YSFYKC AI' fezleke metnini oluştursun</div>
+            </div>
+            <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
+        </div>
+
+        <!-- KOTA BANNER -->
+        <div id="fezlekeKotaBanner" class="fezleke-kota-banner">
+            <span class="kota-icon">⚖️</span>
+            <div class="kota-metin">
+                <div class="kota-metin-baslik" id="kotaBannerBaslik">Günlük Kullanım</div>
+                <div class="kota-metin-alt" id="kotaBannerAlt">Kalan: <b id="kotaKalan">2</b> / 2</div>
+            </div>
+            <div class="kota-dots">
+                <div class="kota-dot" id="kotaDot1"></div>
+                <div class="kota-dot" id="kotaDot2"></div>
             </div>
         </div>
 
@@ -1622,6 +1674,7 @@
             document.getElementById("bBtn8").classList.add("active");
             document.getElementById("fezlekeBolumu").style.display = "block";
             setTimeout(fezlekeInputlariBagla, 50);
+            setTimeout(kotaBannerGuncelle, 80);
         } else if(sekme === 'yonetim') {
             document.getElementById("bBtn4").classList.add("active");
             document.getElementById("yonetimBolumu").style.display = "block";
@@ -3581,7 +3634,88 @@
         setTimeout(fezlekeInputlariBagla, 100);
     };
 
+    // ── FEZLEKE KOTA SİSTEMİ ─────────────────────────────────────
+    const KOTA_LIMIT = 2;
+
+    function kotaAnahtar() {
+        const sicil = localStorage.getItem('aktif_sicil') || 'bilinmiyor';
+        const bugun = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+        return `fezleke_kota_${sicil}_${bugun}`;
+    }
+
+    function kotaOku() {
+        return parseInt(localStorage.getItem(kotaAnahtar()) || '0', 10);
+    }
+
+    function kotaArtir() {
+        const yeni = kotaOku() + 1;
+        localStorage.setItem(kotaAnahtar(), yeni);
+        return yeni;
+    }
+
+    function adminMi() {
+        return localStorage.getItem('aktif_rol') === 'admin';
+    }
+
+    function kotaBannerGuncelle() {
+        if (adminMi()) {
+            const banner = document.getElementById('fezlekeKotaBanner');
+            if (banner) banner.style.display = 'none';
+            return;
+        }
+        const kullanilanStr = kotaOku();
+        const kalan = Math.max(0, KOTA_LIMIT - kullanilanStr);
+        const banner = document.getElementById('fezlekeKotaBanner');
+        const baslik = document.getElementById('kotaBannerBaslik');
+        const alt = document.getElementById('kotaBannerAlt');
+        const kalanEl = document.getElementById('kotaKalan');
+        const dot1 = document.getElementById('kotaDot1');
+        const dot2 = document.getElementById('kotaDot2');
+        if (!banner) return;
+
+        if (kalanEl) kalanEl.innerText = kalan;
+        if (alt) alt.innerHTML = `Kalan: <b>${kalan}</b> / ${KOTA_LIMIT}`;
+
+        // Dot'ları güncelle
+        const dots = [dot1, dot2];
+        dots.forEach((d, i) => {
+            if (!d) return;
+            d.className = 'kota-dot';
+            if (i < kullanilanStr) {
+                if (kullanilanStr >= KOTA_LIMIT) d.classList.add('bitti');
+                else d.classList.add('uyari');
+            }
+        });
+
+        // Banner rengini güncelle
+        banner.className = 'fezleke-kota-banner';
+        const olusturBtn = document.getElementById('fezlekeOlusturBtn');
+
+        if (kalan === 0) {
+            banner.classList.add('kota-dolu');
+            if (baslik) baslik.innerText = 'Günlük Kota Doldu';
+            if (alt) alt.innerHTML = `Bugünkü 2 kullanım hakkınız tükendi. Yarın yenilenir.`;
+            if (olusturBtn) { olusturBtn.disabled = true; olusturBtn.style.opacity = '0.4'; olusturBtn.style.cursor = 'not-allowed'; }
+        } else if (kalan === 1) {
+            banner.classList.add('kota-uyari');
+            if (baslik) baslik.innerText = 'Son Kullanım Hakkı';
+            if (olusturBtn) { olusturBtn.disabled = false; olusturBtn.style.opacity = '1'; olusturBtn.style.cursor = 'pointer'; }
+        } else {
+            if (baslik) baslik.innerText = 'Günlük Kullanım';
+            if (olusturBtn) { olusturBtn.disabled = false; olusturBtn.style.opacity = '1'; olusturBtn.style.cursor = 'pointer'; }
+        }
+    }
+
     async function fezlekeOlustur() {
+        // Kota kontrolü — admin muaf
+        if (!adminMi()) {
+            const kullanilanStr = kotaOku();
+            if (kullanilanStr >= KOTA_LIMIT) {
+                bnAlert(`Bugünkü ${KOTA_LIMIT} fezleke oluşturma hakkınızı kullandınız. Kota her gece sıfırlanır.`, "Günlük Kota Doldu");
+                return;
+            }
+        }
+
         const tarih = document.getElementById("fzTarih").value.trim();
         const saat = document.getElementById("fzSaat").value.trim();
         const yer = document.getElementById("fzYer").value.trim();
@@ -3662,6 +3796,8 @@ ZORUNLU FORMAT KURALLARI:
             const tamMetin = girisKalibi + '\n\n' + aiMetin.trim();
             document.getElementById("fezlekeSonucMetin").innerText = tamMetin;
             document.getElementById("fezlekeSonucKapsayici").style.display = "block";
+            // Başarılı oluşturmada kotayı artır (admin muaf)
+            if (!adminMi()) { kotaArtir(); kotaBannerGuncelle(); }
             setTimeout(() => document.getElementById("fezlekeSonucKapsayici").scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
         } catch(e) {
             console.error("Fezleke hatası:", e);
