@@ -208,7 +208,6 @@
             margin-bottom: 18px; 
             padding-bottom: 14px;
             border-bottom: 1px solid var(--ios-border);
-            position: relative;
         }
         h1 { font-size: 17px; font-weight: 700; margin: 0; color: var(--ios-text); display: flex; align-items: center; gap: 8px; }
         
@@ -374,10 +373,17 @@
 
         /* HEADER DEV BADGE */
         .dev-badge {
-            position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
-            font-size: 9px; font-weight: 600; color: var(--ios-text-mut);
-            letter-spacing: 0.3px; opacity: 0.55; pointer-events: none;
+            display: block; width: 100%; text-align: center;
+            font-size: 9.5px; font-weight: 500; color: var(--ios-text-mut);
+            letter-spacing: 0.4px; opacity: 0.5; pointer-events: none;
             white-space: nowrap; user-select: none;
+            margin-bottom: 10px;
+        }
+        /* Fezleke/Vardiya/Rehber/Yönetim: sağa yaslanmış inline varyant */
+        .dev-badge-inline {
+            font-size: 9.5px; font-weight: 500; color: var(--ios-text-mut);
+            letter-spacing: 0.4px; opacity: 0.45; pointer-events: none;
+            white-space: nowrap; user-select: none; flex-shrink: 0;
         }
 
         /* FEZLEKE KOTA BANNER */
@@ -530,6 +536,7 @@
 
     <div id="bilgiNotuBolumu">
         <div class="glass-panel">
+            <span class="dev-badge">developed by ysfykc</span>
             <div class="header-row">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <div style="width:36px; height:36px; background:linear-gradient(135deg,#25D366,#128C7E); border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 10px rgba(37,211,102,0.3);">
@@ -537,7 +544,6 @@
                     </div>
                     <h1>Bildirim</h1>
                 </div>
-                <span class="dev-badge">developed by ysfykc</span>
                 <div class="top-btn-group">
                     <button class="archive-btn-top btn-danger" onclick="formuTemizle()"><i class="fa-solid fa-trash-can"></i></button>
                     <button class="archive-btn-top" onclick="toggleDarkMode()"><i id="darkIcon" class="fa-solid fa-moon"></i></button>
@@ -659,6 +665,7 @@
 
     <div id="tutanakBolumu" style="display:none;">
         <div class="glass-panel">
+            <span class="dev-badge">developed by ysfykc</span>
             <div class="header-row">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <div style="width:36px; height:36px; background:linear-gradient(135deg,#5856D6,#6E6CD8); border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 10px rgba(88,86,214,0.3);">
@@ -666,7 +673,6 @@
                     </div>
                     <h1>Tutanak Asistanı</h1>
                 </div>
-                <span class="dev-badge">developed by ysfykc</span>
                 <div class="top-btn-group">
                     <button class="archive-btn-top btn-danger" onclick="tutanakTemizle()"><i class="fa-solid fa-trash-can"></i></button>
                     <button class="archive-btn-top" onclick="arsiviAc()"><i class="fa-solid fa-folder-open"></i></button>
@@ -836,7 +842,7 @@
                     <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Vardiya Takvimi</div>
                     <div style="font-size:11px; color:var(--ios-text-mut);">Çalışma takvimini görüntüle</div>
                 </div>
-                <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
+                <span class="dev-badge-inline" style="margin-left:auto;">developed by ysfykc</span>
             </div>
             
             <label style="font-size: 11px; color: var(--ios-text-mut); text-transform:uppercase;">VARDİYA SİSTEMİ</label>
@@ -899,7 +905,7 @@
                     <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Cep Rehberi</div>
                     <div style="font-size:11px; color:var(--ios-text-mut);">Mevzuat ve santral rehberi</div>
                 </div>
-                <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
+                <span class="dev-badge-inline" style="margin-left:auto;">developed by ysfykc</span>
             </div>
             
             <div class="ios-segment-group" style="margin-bottom: 15px;">
@@ -939,9 +945,9 @@
 
     <div id="notlarBolumu" style="display:none;">
         <div class="glass-panel">
+            <span class="dev-badge">developed by ysfykc</span>
             <div class="header-row">
                 <h1><i class="fa-solid fa-note-sticky"></i> Kişisel Notlarım</h1>
-                <span class="dev-badge">developed by ysfykc</span>
             </div>
             <p style="font-size:11px; color:var(--ios-text-mut); margin-bottom:15px; line-height:1.4;">Bu alana girdiğiniz notlar hiçbir ağa (sunucuya) gönderilmez. Doğrudan telefonunuzda ve sadece sizin sicilinize özel olarak güvenle saklanır.</p>
             
@@ -957,6 +963,7 @@
     
     <div id="ayarlarBolumu" style="display:none;">
         <div class="glass-panel">
+            <span class="dev-badge">developed by ysfykc</span>
             <div class="header-row">
                 <div style="display:flex; align-items:center; gap:10px;">
                     <div style="width:36px; height:36px; background:linear-gradient(135deg,#8E8E93,#636366); border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 10px rgba(99,99,102,0.3);">
@@ -964,7 +971,6 @@
                     </div>
                     <h1>Ayarlar</h1>
                 </div>
-                <span class="dev-badge">developed by ysfykc</span>
                 <button class="archive-btn-top btn-danger" onclick="cikisYap()"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
             </div>
             
@@ -1017,7 +1023,7 @@
                     <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Yönetici Paneli</div>
                     <div style="font-size:11px; color:var(--ios-text-mut);">Sistem yönetimi ve istatistikler</div>
                 </div>
-                <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
+                <span class="dev-badge-inline" style="margin-left:auto;">developed by ysfykc</span>
             </div>
             
             <div class="stats-grid">
@@ -1127,7 +1133,7 @@
                 <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Fezleke Asistanı</div>
                 <div style="font-size:11px; color:var(--ios-text-mut);">Bilgileri gir, 'YSFYKC AI' fezleke metnini oluştursun</div>
             </div>
-            <span class="dev-badge" style="position:static; transform:none; margin-left:auto; opacity:0.45;">developed by ysfykc</span>
+            <span class="dev-badge-inline" style="margin-left:auto;">developed by ysfykc</span>
         </div>
 
         <!-- KOTA BANNER -->
