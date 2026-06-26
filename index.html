@@ -389,6 +389,52 @@
         .btn-secondary { background: linear-gradient(135deg, #6E6CD8, #5856D6); box-shadow: 0 4px 15px rgba(88,86,214,0.3); } 
 
         /* TUTANAKLARA ÖZEL DOLDURMA PANELLERİ */
+        /* TUTANAK AI PANELİ */
+        .tutanak-ai-bilgi {
+            display: flex; align-items: flex-start; gap: 10px;
+            background: linear-gradient(135deg, rgba(88,86,214,0.08), rgba(88,86,214,0.04));
+            border: 1.5px solid rgba(88,86,214,0.2);
+            border-radius: 12px; padding: 11px 13px;
+            margin-bottom: 14px; font-size: 12px;
+            color: var(--ios-text-mut); line-height: 1.5;
+        }
+        .tutanak-ai-bilgi i { color: #5856D6; font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+        .tutanak-ai-bilgi b { color: var(--ios-text); }
+
+        .tutanak-ai-sonuc-wrap {
+            margin-top: 14px;
+            border-radius: 14px; overflow: hidden;
+            border: 1.5px solid rgba(88,86,214,0.25);
+        }
+        .tutanak-ai-sonuc-ust {
+            background: linear-gradient(135deg, #5856D6, #4342a8);
+            padding: 11px 14px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .tutanak-ai-sonuc-ust-sol {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 12px; font-weight: 700; color: white;
+        }
+        .tutanak-ai-sonuc-textarea {
+            width: 100%; min-height: 220px;
+            background: var(--ios-input-bg);
+            border: none; outline: none; resize: vertical;
+            padding: 14px; font-size: 13px; line-height: 1.7;
+            color: var(--ios-text); font-family: inherit;
+        }
+        .tutanak-ai-sonuc-alt {
+            background: var(--ios-input-bg);
+            padding: 10px 12px;
+            display: flex; gap: 8px;
+            border-top: 1px solid var(--ios-border);
+        }
+        .tutanak-ai-sonuc-alt button {
+            flex: 1; border: none; border-radius: 9px;
+            padding: 10px; font-size: 12px; font-weight: 700;
+            cursor: pointer; transition: opacity 0.15s;
+        }
+        .tutanak-ai-sonuc-alt button:active { opacity: 0.7; }
+
         .tutanak-ozel-panel { 
             background: var(--ios-input-bg); 
             border: 1.5px solid var(--ios-border); 
@@ -1047,6 +1093,12 @@
                 </select>
             </div>
 
+            <!-- AI BİLGİ BANDI -->
+            <div class="tutanak-ai-bilgi" id="tutAiBilgi">
+                <i class="fa-solid fa-circle-info"></i>
+                <span id="tutAiBilgiMetin">Bilgileri doldurun, AI tutanak metnini otomatik oluştursun.</span>
+            </div>
+
             <div class="row" id="d_tarih_saat">
                 <div class="form-group"><label>Tarih</label><input type="text" id="tutTarih"></div>
                 <div class="form-group"><label>Saat</label><input type="text" id="tutSaat"></div>
@@ -1178,8 +1230,37 @@
                 <input type="text" id="tutMemur2" placeholder="2. Memur (Sicil İsim)">
             </div>
             
-            <button class="bot-btn" onclick="tutanakA4Hazirla()">A4 Önizleme ve Düzenle</button>
-            <button class="bot-btn btn-secondary" id="tutKaydetBtn" onclick="kaydetVeArsivle('tutanak')">Ortak Arşive Gönder</button>
+            <!-- AI TUTANAK OLUŞTUR BUTONU -->
+            <button class="bot-btn" id="tutanakAiBtn" onclick="tutanakAiOlustur()"
+                style="background: linear-gradient(135deg,#5856D6,#4342a8); box-shadow: 0 4px 15px rgba(88,86,214,0.35); margin-bottom:10px;">
+                <i class="fa-solid fa-wand-magic-sparkles" style="margin-right:8px;"></i>AI ile Tutanak Metni Oluştur
+            </button>
+
+            <!-- AI SONUÇ PANELİ -->
+            <div class="tutanak-ai-sonuc-wrap" id="tutanakAiSonucWrap" style="display:none;">
+                <div class="tutanak-ai-sonuc-ust">
+                    <div class="tutanak-ai-sonuc-ust-sol">
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>AI Oluşturdu — Düzenleyebilirsiniz</span>
+                    </div>
+                    <button onclick="tutanakAiYenile()" style="background:rgba(255,255,255,0.15); border:none; border-radius:8px; padding:5px 10px; font-size:11px; font-weight:700; color:white; cursor:pointer;">
+                        <i class="fa-solid fa-rotate-right"></i> Yenile
+                    </button>
+                </div>
+                <textarea class="tutanak-ai-sonuc-textarea" id="tutanakAiMetin" placeholder="Tutanak metni burada görünecek..."></textarea>
+                <div class="tutanak-ai-sonuc-alt">
+                    <button onclick="tutanakAiA4()" style="background:var(--ios-blue); color:white;">
+                        <i class="fa-solid fa-print"></i> A4 Önizleme
+                    </button>
+                    <button onclick="kaydetVeArsivle('tutanak')" style="background:var(--ios-input-bg); color:var(--ios-text); border:1px solid var(--ios-border);">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Arşive Gönder
+                    </button>
+                </div>
+            </div>
+
+            <button class="bot-btn btn-secondary" style="margin-top:8px;" onclick="tutanakA4Hazirla()">
+                <i class="fa-solid fa-eye" style="margin-right:6px;"></i>Klasik A4 Önizleme
+            </button>
         </div>
     </div>
 
@@ -2943,6 +3024,27 @@ net ve uygulanabilir biçimde açıkla. Kısa, özlü ve saha gerçekliğine uyg
     function tutanakSablonDegistir() {
         try {
             const tur = document.getElementById("tutTuru").value;
+
+            // AI BİLGİ BANDI
+            const bilgiMetinler = {
+                ifade:           '<b>İfade Tutanağı:</b> Şahsın adını, TC\'sini ve konu bilgilerini girin. AI resmi ifade tutanağı metnini oluştursun, detay alanına ham notlarınızı yazabilirsiniz.',
+                olay_yeri:       '<b>Olay Yeri Görgü Tutanağı:</b> Olay yeri, konu ve tespitlerinizi girin. AI sahaya uygun, hukuki açıdan geçerli bir olay yeri tutanağı oluşturur.',
+                muhafaza:        '<b>Muhafaza Altına Alma:</b> El konulan eşyanın özelliklerini detay alanına yazın. AI standart elkoyma/muhafaza tutanağı üretir.',
+                teslim_tesellum: '<b>Teslim Tesellüm:</b> Teslim eden ve teslim alanı girin. AI resmi teslim-tesellüm tutanağını oluşturur.',
+                adres_tespit:    '<b>Adres Tespit Tutanağı:</b> Şahıs ve adres bilgilerini girin. AI usulüne uygun adres tespit tutanağı yazar.',
+                kamera_tanik:    '<b>Kamera ve Tanık Araştırma:</b> Olay yeri ve konuyu girin. AI çevre kamerası ve tanık araştırması tutanağını hazırlar.',
+                aranan_sahis:    '<b>Aranan Şahıs Yakalama:</b> Şahıs bilgileri ve yakalanma yerini doldurun. AI CMK kapsamında yakalama tutanağını oluşturur.',
+                bakaya:          '<b>Bakaya Tutanağı:</b> Yükümlü bilgilerini girin. AI 7179 sayılı Kanun kapsamında bakaya tebliğ tutanağını hazırlar.',
+                dugun_izni:      '<b>Düğün/Eğlence İzin Belgesi:</b> Düğün sahip ve adres bilgilerini doldurun. AI resmi izin belgesini düzenler.',
+                izin_dilekcesi:  '<b>Memur İzin Dilekçesi:</b> İzin türü, tarihi ve süresini girin. AI resmi dilekçe metnini oluşturur.',
+                kasbes:          '<b>KASBES Bildirim Formu:</b> Formu doldurun. Kayıp/bulunan belgeler için resmi KASBES bildirimi hazırlanır.',
+            };
+            const bilgiEl = document.getElementById('tutAiBilgiMetin');
+            if (bilgiEl) bilgiEl.innerHTML = bilgiMetinler[tur] || 'Bilgileri doldurun, AI tutanak metnini otomatik oluştursun.';
+
+            // Sonuç panelini sıfırla
+            const wrap = document.getElementById('tutanakAiSonucWrap');
+            if (wrap) wrap.style.display = 'none';
             const isDilekce = (tur === "izin_dilekcesi");
             const isDugun = (tur === "dugun_izni");
             const isAranan = (tur === "aranan_sahis");
@@ -3118,6 +3220,170 @@ net ve uygulanabilir biçimde açıkla. Kısa, özlü ve saha gerçekliğine uyg
             document.getElementById('signatureModal').classList.add('hidden');
         }
     }
+
+    // ── TUTANAK AI SİSTEMİ ───────────────────────────────────────────
+    async function tutanakAiOlustur() {
+        const tur     = document.getElementById('tutTuru').value;
+        const tarih   = document.getElementById('tutTarih')?.value    || '';
+        const saat    = document.getElementById('tutSaat')?.value     || '';
+        const yer     = document.getElementById('tutOlayYeri')?.value || '';
+        const konu    = document.getElementById('tutKonu')?.value     || '';
+        const sahis1  = document.getElementById('tutSahis1')?.value   || '';
+        const sahis2  = document.getElementById('tutSahis2')?.value   || '';
+        const detay   = document.getElementById('tutDetay')?.value    || '';
+        const memur1  = document.getElementById('tutMemur1')?.value   || '';
+        const memur2  = document.getElementById('tutMemur2')?.value   || '';
+
+        // Türe özel ek alanlar
+        const ekBilgiler = {};
+        if (tur === 'aranan_sahis') {
+            ekBilgiler.ekip      = document.getElementById('tutArananEkip')?.value     || '';
+            ekBilgiler.mahkeme   = document.getElementById('tutArananMahkeme')?.value  || '';
+            ekBilgiler.suc       = document.getElementById('tutArananSuc')?.value      || '';
+            ekBilgiler.hastane   = document.getElementById('tutArananHastane')?.value  || '';
+            ekBilgiler.teslimYer = document.getElementById('tutArananTeslim')?.value   || '';
+        }
+        if (tur === 'bakaya') {
+            ekBilgiler.tc     = document.getElementById('tutBakayaTC')?.value     || '';
+            ekBilgiler.ad     = document.getElementById('tutBakayaAd')?.value     || '';
+            ekBilgiler.baba   = document.getElementById('tutBakayaBaba')?.value   || '';
+            ekBilgiler.dtarih = document.getElementById('tutBakayaDTarih')?.value || '';
+            ekBilgiler.nufus  = document.getElementById('tutBakayaNufus')?.value  || '';
+            ekBilgiler.adres  = document.getElementById('tutBakayaAdres')?.value  || '';
+        }
+        if (tur === 'dugun_izni') {
+            ekBilgiler.ad      = document.getElementById('tutDugunAd')?.value      || '';
+            ekBilgiler.adres   = document.getElementById('tutDugunAdres')?.value   || '';
+            ekBilgiler.cesit   = document.getElementById('tutDugunCesit')?.value   || '';
+            ekBilgiler.muddet  = document.getElementById('tutDugunMuddet')?.value  || '';
+            ekBilgiler.baslama = document.getElementById('tutDugunBaslama')?.value || '';
+            ekBilgiler.bitim   = document.getElementById('tutDugunBitim')?.value   || '';
+            ekBilgiler.tel     = document.getElementById('tutDugunTel')?.value     || '';
+        }
+        if (tur === 'izin_dilekcesi') {
+            ekBilgiler.detay   = document.getElementById('tutIzinDetay')?.value   || '';
+            ekBilgiler.baslama = document.getElementById('tutIzinBaslama')?.value || '';
+            ekBilgiler.sure    = document.getElementById('tutIzinSure')?.value    || '';
+            ekBilgiler.adres   = document.getElementById('tutIzinAdres')?.value   || '';
+        }
+
+        // Prompt oluştur
+        const turAdi = {
+            ifade: 'İfade Tutanağı', olay_yeri: 'Olay Yeri Görgü Tutanağı',
+            muhafaza: 'Muhafaza Altına Alma Tutanağı', teslim_tesellum: 'Teslim Tesellüm Tutanağı',
+            adres_tespit: 'Adres Tespit Tutanağı', kamera_tanik: 'Kamera ve Tanık Araştırma Tutanağı',
+            aranan_sahis: 'Aranan Şahıs Yakalama Tutanağı', bakaya: 'Bakaya/Yoklama Kaçağı Tebliğ Tutanağı',
+            dugun_izni: 'Düğün/Eğlence Yeri İzin Belgesi', izin_dilekcesi: 'Memur İzin Dilekçesi',
+            kasbes: 'KASBES Kayıp/Bulunan Bildirim Tutanağı'
+        }[tur] || tur;
+
+        const veri = `
+Tutanak Türü: ${turAdi}
+Tarih: ${tarih || 'belirtilmedi'}
+Saat: ${saat || 'belirtilmedi'}
+Olay Yeri / Adres: ${yer || 'belirtilmedi'}
+Konu / Olay: ${konu || 'belirtilmedi'}
+İlgili Şahıs 1: ${sahis1 || 'belirtilmedi'}
+${sahis2 ? `İlgili Şahıs 2: ${sahis2}` : ''}
+${Object.entries(ekBilgiler).filter(([,v]) => v).map(([k,v]) => `${k}: ${v}`).join('\n')}
+${detay ? `\nEk Bilgi / Notlar:\n${detay}` : ''}
+Tanzim Eden: ${memur1 || 'belirtilmedi'}${memur2 ? ` / ${memur2}` : ''}
+`.trim();
+
+        // Yükleniyor
+        const btn  = document.getElementById('tutanakAiBtn');
+        const wrap = document.getElementById('tutanakAiSonucWrap');
+        const txtArea = document.getElementById('tutanakAiMetin');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin" style="margin-right:8px;"></i>Oluşturuluyor...';
+        wrap.style.display = 'block';
+        txtArea.value = '';
+        txtArea.placeholder = 'AI tutanak metnini yazıyor...';
+
+        try {
+            const response = await fetch(AI_PROXY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-6',
+                    max_tokens: 1400,
+                    system: `Sen Dodurga İlçe Emniyet Müdürlüğü için resmi Türk polis tutanağı yazan uzman bir asistansın.
+
+KURALLAR:
+- Türk polis mevzuatına uygun, resmi ve akıcı dil kullan
+- "İş bu tutanak..." gibi klasik kapanış cümlelerini kullan
+- Eksik bilgi varsa ".................." ile bırak
+- Sadece tutanak metnini yaz, başlık veya açıklama ekleme
+- Tutanağın giriş, olay açıklaması ve kapanış bölümleri olsun
+- Memur imza bloğunu oluşturma (ayrıca basılacak)
+- ${tur === 'izin_dilekcesi' ? 'Bu bir dilekçe, "Sayın Makamınıza" ile başla, saygı ifadesiyle bitir' : ''}
+- ${tur === 'bakaya' ? '7179 sayılı Askere Alma Kanununun 26. maddesini belirt' : ''}
+- ${tur === 'aranan_sahis' ? 'CMK 90. maddesi kapsamında yakalama yetkisine atıfta bulun' : ''}
+- ${tur === 'dugun_izni' ? '2559 sayılı PVSK kapsamında izin belgesi formatında yaz' : ''}`,
+                    messages: [{ role: 'user', content: `Aşağıdaki bilgilerle "${turAdi}" oluştur:\n\n${veri}` }]
+                })
+            });
+            const data = await response.json();
+            const metin = data.content?.map(c => c.text || '').join('') || '';
+            if (!metin) throw new Error('Boş yanıt');
+            txtArea.value = metin.trim();
+            txtArea.placeholder = '';
+        } catch (e) {
+            txtArea.value = '';
+            txtArea.placeholder = 'Hata oluştu. Tekrar deneyin.';
+            bnAlert('Tutanak oluşturulamadı. İnternet bağlantınızı kontrol edin.', 'Hata');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles" style="margin-right:8px;"></i>AI ile Tutanak Metni Oluştur';
+        }
+    }
+
+    function tutanakAiYenile() { tutanakAiOlustur(); }
+
+    function tutanakAiA4() {
+        const metin  = document.getElementById('tutanakAiMetin')?.value || '';
+        const tur    = document.getElementById('tutTuru')?.value || '';
+        const memur1 = document.getElementById('tutMemur1')?.value || '';
+        const memur2 = document.getElementById('tutMemur2')?.value || '';
+        const tarih  = document.getElementById('tutTarih')?.value || '';
+
+        const turAdi = document.getElementById('tutTuru').options[document.getElementById('tutTuru').selectedIndex].text;
+
+        const pStyle = 'style="font-size:12pt; line-height:1.8; margin-bottom:12pt; text-align:justify;"';
+        const paragraflar = metin.split('\n').filter(s => s.trim())
+            .map(s => `<p ${pStyle}>${s}</p>`).join('');
+
+        const m1 = formatMemur(memur1);
+        const m2 = memur2 ? formatMemur(memur2) : '';
+
+        const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>${turAdi}</title>
+<style>
+  @page { margin: 2.5cm; }
+  body { font-family: 'Times New Roman', serif; font-size: 12pt; color: #000; }
+  h2 { text-align:center; font-size:14pt; text-transform:uppercase; margin-bottom:6pt; }
+  h3 { text-align:center; font-size:12pt; margin-bottom:18pt; }
+  .imza-blok { display:flex; justify-content:space-around; margin-top:40pt; }
+  .imza { text-align:center; line-height:1.8; min-width:160px; }
+  .imza .cizgi { border-top:1px solid #000; margin-bottom:6pt; }
+</style>
+</head><body>
+<h2>T.C.<br>DODURGA İLÇE EMNİYET AMİRLİĞİ</h2>
+<h3>${turAdi.toUpperCase()}</h3>
+${paragraflar}
+<div class="imza-blok">
+  <div class="imza"><div class="cizgi"></div>${m1}</div>
+  ${m2 ? `<div class="imza"><div class="cizgi"></div>${m2}</div>` : ''}
+</div>
+</body></html>`;
+
+        const w = window.open('', '_blank');
+        w.document.write(html);
+        w.document.close();
+        setTimeout(() => w.print(), 400);
+        if (typeof window.logIslem === 'function') window.logIslem('Tutanak Çıktısı', `${turAdi} (AI) oluşturuldu.`);
+    }
+    // ─────────────────────────────────────────────────────────────────
 
     function tutanakA4Hazirla() {
         const tur = document.getElementById("tutTuru").value;
