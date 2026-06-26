@@ -586,7 +586,38 @@
             font-size: 10px; color: var(--ios-text-mut); margin-top: 3px; padding: 0 4px;
         }
 
-        /* BÖLÜM BAŞLIKLARI — section divider stili */
+        /* HIZLI ŞABLON */
+        .sablon-drawer {
+            margin-bottom: 14px;
+        }
+        .sablon-drawer-baslik {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 9px 12px; border-radius: 10px;
+            background: var(--ios-input-bg); border: 1.5px solid var(--ios-border);
+            cursor: pointer; user-select: none; transition: background 0.15s;
+        }
+        .sablon-drawer-baslik:active { background: var(--ios-border); }
+        .sablon-drawer-baslik-sol { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--ios-text); }
+        .sablon-drawer-baslik-sol i { color: var(--ios-blue); font-size: 14px; }
+        .sablon-drawer-chevron { color: var(--ios-text-mut); font-size: 12px; transition: transform 0.25s; }
+        .sablon-drawer-chevron.acik { transform: rotate(180deg); }
+        .sablon-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 8px; padding: 10px 0 2px;
+            display: none;
+        }
+        .sablon-grid.acik { display: grid; }
+        .sablon-btn {
+            background: var(--ios-input-bg);
+            border: 1.5px solid var(--ios-border);
+            border-radius: 11px; padding: 10px 12px;
+            cursor: pointer; text-align: left;
+            transition: all 0.15s; display: flex; flex-direction: column; gap: 3px;
+        }
+        .sablon-btn:active { transform: scale(0.97); }
+        .sablon-btn-ikon { font-size: 18px; margin-bottom: 2px; }
+        .sablon-btn-baslik { font-size: 12px; font-weight: 700; color: var(--ios-text); line-height: 1.3; }
+        .sablon-btn-alt { font-size: 10px; color: var(--ios-text-mut); line-height: 1.3; }
         .section-header {
             display: flex; align-items: center; gap: 8px;
             margin-bottom: 12px; padding-bottom: 10px;
@@ -806,6 +837,79 @@
                 </div>
             </div>
             
+            <!-- HIZLI ŞABLONLAR -->
+            <div class="sablon-drawer" id="sablonDrawer">
+                <div class="sablon-drawer-baslik" onclick="sablonDrawerToggle()">
+                    <div class="sablon-drawer-baslik-sol">
+                        <i class="fa-solid fa-bolt"></i>
+                        Hızlı Şablon Seç
+                    </div>
+                    <i class="fa-solid fa-chevron-down sablon-drawer-chevron" id="sablonChevron"></i>
+                </div>
+                <div class="sablon-grid" id="sablonGrid">
+                    <button class="sablon-btn" onclick="hizliSablon('asayis_rutin')">
+                        <span class="sablon-btn-ikon">🔵</span>
+                        <span class="sablon-btn-baslik">Asayiş Uygulaması</span>
+                        <span class="sablon-btn-alt">Rutin kontrol, suç yok</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('asayis_trafik_rutin')">
+                        <span class="sablon-btn-ikon">🚗</span>
+                        <span class="sablon-btn-baslik">Asayiş + Trafik</span>
+                        <span class="sablon-btn-alt">Karma uygulama</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('kavga')">
+                        <span class="sablon-btn-ikon">⚠️</span>
+                        <span class="sablon-btn-baslik">Kavga / Yaralama</span>
+                        <span class="sablon-btn-alt">Adli olay, savcılık</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('hakaret_tehdit')">
+                        <span class="sablon-btn-ikon">🗣️</span>
+                        <span class="sablon-btn-baslik">Hakaret / Tehdit</span>
+                        <span class="sablon-btn-alt">TCK 125 / TCK 106</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('hirsizlik')">
+                        <span class="sablon-btn-ikon">🏠</span>
+                        <span class="sablon-btn-baslik">Hırsızlık</span>
+                        <span class="sablon-btn-alt">Konut / işyeri</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('trafik_kaza')">
+                        <span class="sablon-btn-ikon">💥</span>
+                        <span class="sablon-btn-baslik">Trafik Kazası</span>
+                        <span class="sablon-btn-alt">Maddi hasarlı</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('kayip_sahis')">
+                        <span class="sablon-btn-ikon">🔍</span>
+                        <span class="sablon-btn-baslik">Kayıp Şahıs</span>
+                        <span class="sablon-btn-alt">Arama, bulundu/bulunamadı</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('uyusturucu')">
+                        <span class="sablon-btn-ikon">🚨</span>
+                        <span class="sablon-btn-baslik">Uyuşturucu</span>
+                        <span class="sablon-btn-alt">Kullanım / bulundurma</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('mala_zarar')">
+                        <span class="sablon-btn-ikon">🪟</span>
+                        <span class="sablon-btn-baslik">Mala Zarar Verme</span>
+                        <span class="sablon-btn-alt">TCK 151</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('aile_ici')">
+                        <span class="sablon-btn-ikon">👨‍👩‍👧</span>
+                        <span class="sablon-btn-baslik">Aile İçi Şiddet</span>
+                        <span class="sablon-btn-alt">6284 ŞÖNİM tedbiri</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('gurultu')">
+                        <span class="sablon-btn-ikon">🔊</span>
+                        <span class="sablon-btn-baslik">Gürültü Şikayeti</span>
+                        <span class="sablon-btn-alt">Kabahatler 36</span>
+                    </button>
+                    <button class="sablon-btn" onclick="hizliSablon('alkol_denetim')">
+                        <span class="sablon-btn-ikon">🍺</span>
+                        <span class="sablon-btn-baslik">Alkol Denetimi</span>
+                        <span class="sablon-btn-alt">KTK 48/5</span>
+                    </button>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Olay Türü</label>
                 <select id="olayTuru" onchange="sablonDegistir()">
@@ -2501,6 +2605,143 @@ net ve uygulanabilir biçimde açıkla. Kısa, özlü ve saha gerçekliğine uyg
         icon.classList.toggle("fa-chevron-down", container.classList.contains("hidden"));
         icon.classList.toggle("fa-chevron-up", !container.classList.contains("hidden"));
     }
+
+    // ── HIZLI ŞABLON SİSTEMİ ──────────────────────────────────────────
+    function sablonDrawerToggle() {
+        const grid = document.getElementById('sablonGrid');
+        const chevron = document.getElementById('sablonChevron');
+        const acik = grid.classList.toggle('acik');
+        chevron.classList.toggle('acik', acik);
+    }
+
+    function hizliSablon(tip) {
+        // Ortak: tarih ve saati güncelle
+        const bugun = new Date();
+        const trh = `${String(bugun.getDate()).padStart(2,'0')}.${String(bugun.getMonth()+1).padStart(2,'0')}.${bugun.getFullYear()}`;
+        const st  = `${String(bugun.getHours()).padStart(2,'0')}:${String(bugun.getMinutes()).padStart(2,'0')}`;
+        document.getElementById('tarih').value = trh;
+        document.getElementById('saat').value  = st;
+
+        const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val; };
+        const tur = (val) => { set('olayTuru', val); sablonDegistir(); };
+
+        const SABLONLAR = {
+            asayis_rutin: {
+                olayTuru: 'asayis',
+                baslik: 'BİLGİ NOTU',
+                konu: 'Asayiş Uygulaması',
+                ozet: 'Yapılan kontrollerde herhangi bir suç ve suç unsuruna rastlanılmamıştır.',
+                sahis: null, arac: null
+            },
+            asayis_trafik_rutin: {
+                olayTuru: 'asayis_trafik',
+                baslik: 'BİLGİ NOTU',
+                konu: 'Asayiş ve Trafik Uygulaması',
+                ozet: 'Yapılan asayiş ve trafik kontrollerinde herhangi bir suç ve suç unsuruna rastlanılmamıştır.',
+                sahis: null, arac: null
+            },
+            kavga: {
+                olayTuru: 'adli',
+                adliTur: 'Kasten Yaralama',
+                baslik: 'MAKAMA ARZ',
+                konu: 'Kasten Yaralama',
+                ozet: 'Şahısların birbirleriyle kavga ettiğine dair ihbar alınmış olup olay yerine intikal edilmiştir. Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli tahkikata başlanılmıştır. Şüpheli/mağdur şahıslar doktor raporuna yönlendirilmiştir. Tahkikat evrakları ikmalen gönderilecektir.'
+            },
+            hakaret_tehdit: {
+                olayTuru: 'adli',
+                adliTur: 'Tehdit ve Hakaret',
+                baslik: 'MAKAMA ARZ',
+                konu: 'Tehdit ve Hakaret',
+                ozet: 'Şahıslar arasında çıkan tartışmada hakaret ve tehdit içerikli beyanlara dair şikâyet alınmıştır. Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda ifadeler tespit edilmiş olup tahkikat evrakları ikmalen gönderilecektir.'
+            },
+            hirsizlik: {
+                olayTuru: 'adli',
+                adliTur: 'Evden Hırsızlık',
+                baslik: 'MAKAMA ARZ',
+                konu: 'Hırsızlık',
+                ozet: 'Belirtilen adreste hırsızlık olayı meydana geldiğine dair ihbar alınmış olup olay yerine intikal edilmiştir. Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda olay yeri incelemesi yapılmıştır. Müşteki şikâyetçi olmuş olup tahkikat evrakları ikmalen gönderilecektir.'
+            },
+            trafik_kaza: {
+                olayTuru: 'trafik',
+                baslik: 'MAKAMA ARZ',
+                konu: 'Maddi Hasarlı Trafik Kazası',
+                ozet: 'Belirtilen noktada meydana gelen trafik kazasına ilişkin olay yerine intikal edilmiştir. Çevre ve yol güvenliği alınarak şahıslarda herhangi bir sağlık sorunu ve ambulans talebi olmadığına dair tutanak tanzim edilmiş, adli işlem yapılmaksızın trafik yönünden gerekli işlemlere başlanılmıştır.'
+            },
+            kayip_sahis: {
+                olayTuru: 'idari',
+                baslik: 'BİLGİ NOTU',
+                konu: 'Kayıp Şahıs',
+                ozet: 'Belirtilen şahsın kayıp olduğuna dair yakınlarından ihbar alınmış olup gerekli çalışmalar başlatılmıştır. Şahsın bulunması/bulunamaması hâlinde durum ayrıca bildirilecektir.'
+            },
+            uyusturucu: {
+                olayTuru: 'adli',
+                adliTur: 'Adli Vaka (Genel)',
+                baslik: 'MAKAMA ARZ',
+                konu: 'Uyuşturucu Madde Kullanımı / Bulundurma',
+                ozet: 'Şahsın üzerinde/ikametinde uyuşturucu madde bulunduğuna dair ihbar/tespit üzerine olay yerine intikal edilmiştir. Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda gerekli işlemler yapılmış olup ele geçirilen madde mühür altına alınmıştır. Tahkikat evrakları ikmalen gönderilecektir.'
+            },
+            mala_zarar: {
+                olayTuru: 'adli',
+                adliTur: 'Mala Zarar Verme',
+                baslik: 'MAKAMA ARZ',
+                konu: 'Mala Zarar Verme',
+                ozet: 'Şahsın mülküne zarar verildiğine dair şikâyet alınmıştır. Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda olay yeri incelemesi yapılmış olup müşteki şikâyetçi olmuştur. Tahkikat evrakları ikmalen gönderilecektir.'
+            },
+            aile_ici: {
+                olayTuru: 'adli',
+                adliTur: 'Kasten Yaralama',
+                baslik: 'MAKAMA ARZ',
+                konu: 'Aile İçi Şiddet / 6284 Sayılı Kanun Kapsamında Tedbir',
+                ozet: 'Aile içi şiddet vakasına ilişkin ihbar alınmış olup olay yerine intikal edilmiştir. Mağdur şahıs doktor raporuna yönlendirilmiştir. Günün Nöbetçi Cumhuriyet Savcısı aranıp alınan talimatlar doğrultusunda 6284 sayılı ŞÖNİM Kanunu kapsamında tedbir kararı için gerekli belgeler hazırlanmış olup tahkikat evrakları ikmalen gönderilecektir.'
+            },
+            gurultu: {
+                olayTuru: 'idari',
+                baslik: 'BİLGİ NOTU',
+                konu: 'Gürültü Şikâyeti',
+                ozet: 'Belirtilen adresten gürültü geldiğine dair şikâyet alınmış olup olay yerine intikal edilmiştir. Şahıs/şahıslar uyarılmış olup uyarıya uyulmuştur. 5326 sayılı Kabahatler Kanununun 36. maddesi uyarınca gerekli işlem yapılmıştır.'
+            },
+            alkol_denetim: {
+                olayTuru: 'asayis_trafik',
+                baslik: 'BİLGİ NOTU',
+                konu: 'Alkol Denetimi',
+                ozet: 'Yapılan denetimde alkollü araç kullandığı tespit edilen şahıs/şahıslar hakkında 2918 sayılı KTK\'nun 48/5. maddesi uyarınca gerekli işlemler yapılmıştır.',
+                sahis: null, arac: null
+            },
+        };
+
+        const s = SABLONLAR[tip];
+        if (!s) return;
+
+        // Olay türünü seç ve sablonDegistir'i tetikle
+        set('olayTuru', s.olayTuru);
+        sablonDegistir();
+
+        // Adli alt tür
+        if (s.adliTur) {
+            set('adliTuru', s.adliTur);
+            adliTurSecildi();
+        }
+
+        // Geri kalanları doldur
+        set('baslikTuru', s.baslik);
+        set('konu', s.konu);
+        set('ozet', s.ozet);
+
+        // Şahıs/araç sorgu (sadece asayiş)
+        if (s.sahis !== undefined) set('sorgulananSahis', s.sahis || '');
+        if (s.arac  !== undefined) set('sorgulananArac',  s.arac  || '');
+
+        metinOlustur();
+
+        // Drawer'ı kapat
+        document.getElementById('sablonGrid').classList.remove('acik');
+        document.getElementById('sablonChevron').classList.remove('acik');
+
+        // Yer alanına odaklan — tek eksik olan o
+        const yerEl = document.getElementById('olayYeri');
+        if (yerEl) { yerEl.value = ''; setTimeout(() => yerEl.focus(), 150); }
+    }
+    // ─────────────────────────────────────────────────────────────────
 
     function sablonDegistir() {
         const tur = document.getElementById("olayTuru").value;
