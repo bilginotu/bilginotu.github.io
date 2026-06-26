@@ -822,13 +822,6 @@
             </div>
         </div>
 
-        <div class="glass-panel" id="checklistPanel">
-            <div class="checklist-title" onclick="toggleChecklist()">
-                <span><i class="fa-solid fa-list-check" style="color: var(--ios-blue); margin-right:5px;"></i> Kontrol Listesi</span>
-                <i id="checklistIcon" class="fa-solid fa-chevron-up"></i>
-            </div>
-            <div id="checkListItemsContainer" style="margin-top:10px;"></div>
-        </div>
     </div>
 
     <div id="tutanakBolumu" style="display:none; padding-top: 20px;">
@@ -1450,10 +1443,25 @@
             </div>
             <div style="background:var(--ios-card); padding:14px; display:flex; flex-direction:column; gap:10px;">
                 <div>
-                    <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">🏥 Doktor Raporu / Adli Tıp Bulguları</div>
-                    <textarea id="fzDoktorRaporu" placeholder="Varsa doktor raporu içeriğini buraya yaz..."
-                        style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:13px; color:var(--ios-text); outline:none; min-height:60px; resize:vertical; transition:border-color 0.2s;"
+                    <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:8px;">🏥 Doktor Raporu / Adli Tıp Bulguları</div>
+                    <textarea id="fzDoktorRaporu" placeholder="Varsa doktor raporu içeriğini buraya yaz veya fotoğraf tara..."
+                        style="width:100%; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:10px; padding:10px 12px; font-size:13px; color:var(--ios-text); outline:none; min-height:70px; resize:vertical; transition:border-color 0.2s; margin-bottom:8px;"
                         onfocus="this.style.borderColor='var(--ios-green)'" onblur="this.style.borderColor='var(--ios-border)'"></textarea>
+                    <!-- Gizli dosya inputları -->
+                    <input type="file" id="raporFotoInput" accept="image/*" capture="environment" style="display:none;" onchange="raporFotoOku(this)">
+                    <input type="file" id="raporGaleriInput" accept="image/*" style="display:none;" onchange="raporFotoOku(this)">
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="document.getElementById('raporFotoInput').click()"
+                            id="raporKameraBtn"
+                            style="flex:1; background:linear-gradient(135deg,rgba(52,199,89,0.12),rgba(52,199,89,0.06)); border:1.5px dashed rgba(52,199,89,0.45); border-radius:9px; padding:9px; font-size:12px; font-weight:700; color:var(--ios-green); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                            <i class="fa-solid fa-camera"></i> Raporu Tara
+                        </button>
+                        <button onclick="document.getElementById('raporGaleriInput').click()"
+                            id="raporGaleriBtn"
+                            style="flex:1; background:linear-gradient(135deg,rgba(52,199,89,0.12),rgba(52,199,89,0.06)); border:1.5px dashed rgba(52,199,89,0.45); border-radius:9px; padding:9px; font-size:12px; font-weight:700; color:var(--ios-green); cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;">
+                            <i class="fa-solid fa-image"></i> Galeriden Seç
+                        </button>
+                    </div>
                 </div>
                 <div>
                     <div style="font-size:10px; font-weight:700; color:var(--ios-text-mut); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:5px;">🏛️ Savcı Talimatı</div>
@@ -3732,7 +3740,7 @@
         if(ifadeSayisi >= MAX_IFADE) return;
         ifadeSayisi++;
         const container = document.getElementById("ifadelerContainer");
-        const sifatSecenekleri = ['Müşteki','Şüpheli','Mağdur','Bilgi Sahibi','Tanık'].map(s => `<option value="${s}">${s}</option>`).join('');
+        const sifatSecenekleri = ['Müşteki','Şüpheli','Mağdur','Müşteki-Şüpheli','Mağdur-Şüpheli','Kimlik Tespiti Yapılan','Suça Sürüklenen Çocuk','Bilgi Sahibi','Tanık'].map(s => `<option value="${s}">${s}</option>`).join('');
         const div = document.createElement("div");
         div.className = "ifade-blok";
         div.dataset.index = ifadeSayisi;
@@ -3870,6 +3878,112 @@
                 b.style.pointerEvents = 'auto';
             });
             e.target.value = '';
+        }
+    }
+
+    // DOKTOR RAPORU FOTOĞRAF TARAMA
+    async function raporFotoOku(input) {
+        const dosya = input.files[0];
+        if (!dosya) return;
+
+        const kameraBtn = document.getElementById('raporKameraBtn');
+        const galeriBtn = document.getElementById('raporGaleriBtn');
+        const textarea  = document.getElementById('fzDoktorRaporu');
+
+        // Yükleniyor durumu
+        [kameraBtn, galeriBtn].forEach(b => {
+            b.style.opacity = '0.6';
+            b.style.pointerEvents = 'none';
+        });
+        kameraBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Taranıyor...';
+        galeriBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Taranıyor...';
+
+        try {
+            const base64 = await new Promise((res, rej) => {
+                const reader = new FileReader();
+                reader.onload = () => res(reader.result.split(',')[1]);
+                reader.onerror = rej;
+                reader.readAsDataURL(dosya);
+            });
+            const mediaType = dosya.type || 'image/jpeg';
+
+            const response = await fetch(AI_PROXY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-6',
+                    max_tokens: 1500,
+                    system: 'Sen adli tıp raporlarını analiz eden bir OCR uzmanısın. Türkçe baskı metinlerini doğru okur, Türkçe karakter hatalarını düzeltirsin. Yanıtını her zaman geçerli JSON formatında verirsin.',
+                    messages: [{
+                        role: 'user',
+                        content: [
+                            {
+                                type: 'image',
+                                source: { type: 'base64', media_type: mediaType, data: base64 }
+                            },
+                            {
+                                type: 'text',
+                                text: `Bu bir Türk devlet hastanesine ait Genel Adli Muayene Raporunun fotoğrafıdır.
+
+GÖREV: Bu rapordaki "SONUÇ" bölümünü bul ve yalnızca o bölümdeki metni oku.
+
+SONUÇ bölümü genellikle şunları içerir:
+- "Halen Hayati Tehlike Var mı?" satırı
+- "Yaşamını Tehlikeye Sokan Durum" satırı  
+- Sonuç açıklama paragrafı (muayene bulguları, öneriler vs.)
+
+YAPMAN GEREKENLER:
+1. Yalnızca SONUÇ bölümündeki metni al
+2. Türkçe karakterleri düzelt (ş,ğ,ü,ö,ç,ı)
+3. Tıbbi terimleri olduğu gibi koru
+4. "Halen Hayati Tehlike Var mı: [cevap]" ve "Yaşamını Tehlikeye Sokan Durum: [cevap]" kısımlarını dahil et
+5. Doktor/hastane adını ve rapor tarihini sonuna ekle
+
+Yanıtını YALNIZCA şu JSON formatında ver, başka hiçbir şey yazma:
+{"sonuc": "buraya sadece SONUÇ bölümünün tam metni", "hastane": "hastane adı veya bos string", "doktor": "doktor adı veya bos string", "tarih": "rapor tarihi veya bos string"}`
+                            }
+                        ]
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            const text = data.content?.map(c => c.text || '').join('') || '';
+            const temiz = text.replace(/```json|```/g, '').trim();
+            const parsed = JSON.parse(temiz);
+
+            // Textarea'ya yaz — yapılandırılmış format
+            let rapor = '';
+            if (parsed.hastane) rapor += `${parsed.hastane}`;
+            if (parsed.tarih)   rapor += ` - ${parsed.tarih}`;
+            if (rapor)          rapor += '\n';
+            if (parsed.sonuc)   rapor += parsed.sonuc;
+            if (parsed.doktor)  rapor += `\n(Dr. ${parsed.doktor})`;
+
+            textarea.value = rapor.trim();
+
+            // Başarı stili
+            [kameraBtn, galeriBtn].forEach(b => {
+                b.style.opacity = '1';
+                b.style.pointerEvents = 'auto';
+                b.style.borderColor = 'rgba(52,199,89,0.6)';
+            });
+            kameraBtn.innerHTML = '<i class="fa-solid fa-check"></i> Tarama Tamamlandı';
+            galeriBtn.innerHTML = '<i class="fa-solid fa-check"></i> Tarama Tamamlandı';
+
+        } catch (err) {
+            console.error('Rapor tarama hatası:', err);
+            [kameraBtn, galeriBtn].forEach(b => {
+                b.style.opacity = '1';
+                b.style.pointerEvents = 'auto';
+                b.style.color = 'var(--ios-red)';
+                b.style.borderColor = 'rgba(255,59,48,0.4)';
+            });
+            kameraBtn.innerHTML = '<i class="fa-solid fa-camera"></i> Raporu Tara';
+            galeriBtn.innerHTML = '<i class="fa-solid fa-image"></i> Galeriden Seç';
+            bnAlert('Rapor okunamadı. Fotoğrafı daha net çekip tekrar deneyin.', 'Tarama Hatası');
+        } finally {
+            input.value = '';
         }
     }
 
