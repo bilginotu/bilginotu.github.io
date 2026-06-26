@@ -499,6 +499,92 @@
         .mevzuat-kod { font-weight: 800; color: var(--ios-red); font-size: 15px; }
         .mevzuat-desc { font-size: 14px; color: var(--ios-text); line-height: 1.45; }
         .mevzuat-ceza { font-size: 13px; font-weight: 700; color: var(--ios-green); margin-top: 3px; }
+        .mevzuat-kategori-etiket {
+            display: inline-block; font-size: 10px; font-weight: 800;
+            padding: 2px 8px; border-radius: 6px; margin-bottom: 4px;
+            text-transform: uppercase; letter-spacing: 0.4px;
+        }
+        .mevzuat-ai-btn {
+            margin-top: 8px; border: none; border-radius: 8px; padding: 8px 12px;
+            font-size: 12px; font-weight: 700; cursor: pointer;
+            background: linear-gradient(135deg, rgba(0,122,255,0.1), rgba(0,122,255,0.06));
+            color: var(--ios-blue); border: 1.5px solid rgba(0,122,255,0.2);
+            display: flex; align-items: center; gap: 6px; width: 100%;
+            justify-content: center; transition: background 0.15s;
+        }
+        .mevzuat-ai-btn:active { background: rgba(0,122,255,0.15); }
+
+        /* MEVZUAT DETAY MODALI */
+        #mevzuatAIModal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 99992;
+            display: flex; justify-content: center; align-items: flex-end;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+        }
+        #mevzuatAIModal.goster { opacity: 1; pointer-events: auto; }
+        .mevzuat-ai-panel {
+            background: var(--ios-card); border-radius: 22px 22px 0 0;
+            width: 100%; max-height: 88vh; overflow-y: auto;
+            padding: 0 0 40px 0;
+            transform: translateY(100%);
+            transition: transform 0.35s cubic-bezier(0.34,1.2,0.64,1);
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.3);
+        }
+        #mevzuatAIModal.goster .mevzuat-ai-panel { transform: translateY(0); }
+        .mevzuat-ai-panel-ust {
+            position: sticky; top: 0; background: var(--ios-card);
+            padding: 12px 16px 0; z-index: 1;
+            border-bottom: 1px solid var(--ios-border);
+        }
+        .mevzuat-ai-panel-tutamac {
+            width: 36px; height: 4px; background: var(--ios-border);
+            border-radius: 2px; margin: 0 auto 12px;
+        }
+        .mevzuat-ai-panel-baslik {
+            font-size: 16px; font-weight: 800; color: var(--ios-text);
+            margin-bottom: 4px;
+        }
+        .mevzuat-ai-panel-alt {
+            font-size: 12px; color: var(--ios-text-mut); margin-bottom: 12px;
+        }
+        .mevzuat-ai-sonuc {
+            padding: 16px; font-size: 14px; color: var(--ios-text);
+            line-height: 1.7; white-space: pre-wrap;
+        }
+        .mevzuat-ai-bolum {
+            background: var(--ios-input-bg); border-radius: 12px;
+            padding: 12px 14px; margin: 8px 16px;
+        }
+        .mevzuat-ai-bolum-baslik {
+            font-size: 10px; font-weight: 800; color: var(--ios-text-mut);
+            text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;
+        }
+        .mevzuat-ai-bolum-metin {
+            font-size: 14px; color: var(--ios-text); line-height: 1.65;
+        }
+
+        /* HUKUKİ DANIŞ CHAT */
+        .hukuk-chat-balonu {
+            margin-bottom: 12px; display: flex; flex-direction: column;
+        }
+        .hukuk-chat-balonu.kullanici { align-items: flex-end; }
+        .hukuk-chat-balonu.ai { align-items: flex-start; }
+        .hukuk-chat-balon-icerik {
+            max-width: 85%; padding: 11px 14px; border-radius: 18px;
+            font-size: 14px; line-height: 1.55;
+        }
+        .hukuk-chat-balonu.kullanici .hukuk-chat-balon-icerik {
+            background: var(--ios-blue); color: white;
+            border-bottom-right-radius: 5px;
+        }
+        .hukuk-chat-balonu.ai .hukuk-chat-balon-icerik {
+            background: var(--ios-input-bg); color: var(--ios-text);
+            border-bottom-left-radius: 5px;
+        }
+        .hukuk-chat-zaman {
+            font-size: 10px; color: var(--ios-text-mut); margin-top: 3px; padding: 0 4px;
+        }
 
         /* BÖLÜM BAŞLIKLARI — section divider stili */
         .section-header {
@@ -1060,45 +1146,80 @@
         <div class="glass-panel">
             <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
                 <div style="width:36px; height:36px; background:linear-gradient(135deg,#34C759,#30A44D); border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 10px rgba(52,199,89,0.3);">
-                    <i class="fa-solid fa-book" style="color:white; font-size:16px;"></i>
+                    <i class="fa-solid fa-scale-balanced" style="color:white; font-size:16px;"></i>
                 </div>
                 <div>
-                    <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Cep Rehberi</div>
-                    <div style="font-size:11px; color:var(--ios-text-mut);">Mevzuat ve santral rehberi</div>
+                    <div style="font-size:17px; font-weight:700; color:var(--ios-text);">Hukuki Rehber</div>
+                    <div style="font-size:11px; color:var(--ios-text-mut);">Mevzuat arama ve AI hukuki destek</div>
                 </div>
                 <span class="dev-badge-inline" style="margin-left:auto;">developed by ysfykc</span>
             </div>
-            
-            <div class="ios-segment-group" style="margin-bottom: 15px;">
-                <div class="ios-segment-btn active" id="segMevzuat" onclick="rehberSekmeSec('mevzuat')">Mevzuat & Ceza</div>
-                <div class="ios-segment-btn" id="segSantral" onclick="rehberSekmeSec('santral')">Dijital Santral</div>
+
+            <div class="ios-segment-group" style="margin-bottom:15px;">
+                <div class="ios-segment-btn active" id="segMevzuat" onclick="rehberSekmeSec('mevzuat')">📚 Mevzuat</div>
+                <div class="ios-segment-btn" id="segHukuk" onclick="rehberSekmeSec('hukuk')">⚖️ Hukuki Danış</div>
             </div>
 
+            <!-- MEVZUAT SEKMESİ -->
             <div id="icerikMevzuat">
-                <p style="font-size:11px; color:var(--ios-text-mut); margin-bottom:15px; line-height:1.4;">Sahada en sık karşılaşılan maddeleri internetsiz arayabilirsiniz. Tüm cezalar <b>2026 yılı 7574 Sayılı Kanun ve yeniden değerleme</b> kapsamında güncellenmiştir.</p>
+                <p style="font-size:11px; color:var(--ios-text-mut); margin-bottom:12px; line-height:1.5;">Sahada en sık karşılaşılan maddeleri internetsiz arayın. Her madde için <b>AI detay</b> alın. Cezalar <b>2026 yılı</b> kapsamında güncellenmiştir.</p>
                 <div class="form-group">
                     <div style="position:relative;">
                         <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:14px; color:var(--ios-text-mut);"></i>
-                        <input type="text" id="mevzuatArama" placeholder="Madde veya kelime ara (Örn: Gürültü)" oninput="mevzuatAra()" style="background:var(--ios-input-bg); font-size: 14px; padding-left:35px;">
+                        <input type="text" id="mevzuatArama" placeholder="Madde, suç veya kelime ara... (Örn: Hakaret)" oninput="mevzuatAra()" style="background:var(--ios-input-bg); font-size:14px; padding-left:35px;">
                     </div>
                 </div>
-                <div id="mevzuatSonuclar" style="max-height: 55vh; overflow-y: auto; padding-bottom:20px;">
-                    <p style='font-size:12px; color:var(--ios-text-mut); text-align:center; padding: 20px;'>Aramaya başlamak için yukarıya en az 2 harf veya madde numarası giriniz.</p>
+                <div id="mevzuatSonuclar" style="max-height:60vh; overflow-y:auto; padding-bottom:20px;">
+                    <p style='font-size:12px; color:var(--ios-text-mut); text-align:center; padding:20px;'>Aramaya başlamak için en az 2 karakter girin.</p>
                 </div>
             </div>
 
-            <div id="icerikSantral" style="display:none;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                    <p style="font-size:11px; color:var(--ios-text-mut); margin:0; line-height:1.4; flex:1;">Acil durumlarda tek tıkla arama yapabileceğiniz rehber. Kendi özel numaralarınızı ekleyebilirsiniz.</p>
-                    <button class="bot-btn" style="width:auto; margin:0 0 0 10px; padding:8px 15px; font-size:13px; background:var(--ios-green);" onclick="santralModalAc()"><i class="fa-solid fa-plus"></i> Ekle</button>
+            <!-- HUKUKİ DANIŞ SEKMESİ -->
+            <div id="icerikHukuk" style="display:none;">
+                <div style="background:linear-gradient(135deg,rgba(0,122,255,0.08),rgba(0,122,255,0.04)); border:1.5px solid rgba(0,122,255,0.2); border-radius:12px; padding:12px 14px; margin-bottom:14px;">
+                    <div style="font-size:12px; font-weight:700; color:var(--ios-blue); margin-bottom:4px;"><i class="fa-solid fa-circle-info" style="margin-right:5px;"></i>Nasıl kullanılır?</div>
+                    <div style="font-size:12px; color:var(--ios-text-mut); line-height:1.5;">Sahada karşılaştığınız hukuki durumu yazın. Hangi suç vasfı uygulanır, hangi madde devreye girer, nasıl işlem yapılır — AI size yol gösterir.</div>
                 </div>
-                <div class="form-group">
-                    <div style="position:relative;">
-                        <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:12px; top:14px; color:var(--ios-text-mut);"></i>
-                        <input type="text" id="santralArama" placeholder="Kurum, birim veya numara ara..." oninput="santralAra()" style="background:var(--ios-input-bg); font-size: 14px; padding-left:35px;">
+                <div id="hukukChatAlani" style="min-height:180px; max-height:45vh; overflow-y:auto; margin-bottom:12px; display:flex; flex-direction:column;">
+                    <div class="hukuk-chat-balonu ai">
+                        <div class="hukuk-chat-balon-icerik">Merhaba! Ben Dodurga İlçe Emniyet'in hukuki danışman asistanıyım. Sahada karşılaştığınız herhangi bir durumu anlatın — size uygulanabilir mevzuatı, suç vasfını ve yapılması gerekenleri açıklayayım.</div>
+                        <div class="hukuk-chat-zaman">YSFYKC AI</div>
                     </div>
                 </div>
-                <div id="santralSonuclar" style="max-height: 50vh; overflow-y: auto; padding-bottom:20px;">
+                <div style="display:flex; gap:8px; align-items:flex-end;">
+                    <textarea id="hukukSoruInput" placeholder="Örn: Komşular arasında tartışma var, birisi diğerine 'seni öldürürüm' dedi. Ne yapmalıyım?" 
+                        style="flex:1; background:var(--ios-input-bg); border:1.5px solid var(--ios-border); border-radius:12px; padding:10px 12px; font-size:14px; color:var(--ios-text); outline:none; min-height:52px; max-height:120px; resize:none; line-height:1.45; transition:border-color 0.2s;"
+                        onfocus="this.style.borderColor='var(--ios-blue)'" onblur="this.style.borderColor='var(--ios-border)'"
+                        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();hukukSor();}"></textarea>
+                    <button onclick="hukukSor()" id="hukukGonderBtn"
+                        style="width:44px; height:44px; border-radius:50%; background:var(--ios-blue); border:none; color:white; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:0 3px 10px rgba(0,122,255,0.3);">
+                        <i class="fa-solid fa-paper-plane" style="font-size:14px; margin-left:2px;"></i>
+                    </button>
+                </div>
+                <button onclick="hukukChatTemizle()" style="width:100%; margin-top:10px; background:transparent; border:1px solid var(--ios-border); border-radius:10px; padding:9px; font-size:12px; color:var(--ios-text-mut); cursor:pointer;">
+                    <i class="fa-solid fa-rotate-left" style="margin-right:5px;"></i>Sohbeti Sıfırla
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEVZUAT AI DETAY MODALI (bottom sheet) -->
+    <div id="mevzuatAIModal">
+        <div class="mevzuat-ai-panel">
+            <div class="mevzuat-ai-panel-ust">
+                <div class="mevzuat-ai-panel-tutamac"></div>
+                <div style="display:flex; justify-content:space-between; align-items:flex-start; padding-bottom:12px;">
+                    <div>
+                        <div class="mevzuat-ai-panel-baslik" id="mevzuatAIPanelKod"></div>
+                        <div class="mevzuat-ai-panel-alt" id="mevzuatAIPanelDesc"></div>
+                    </div>
+                    <button onclick="mevzuatAIKapat()" style="background:var(--ios-input-bg); border:none; border-radius:50%; width:30px; height:30px; font-size:14px; color:var(--ios-text-mut); cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center;">✕</button>
+                </div>
+            </div>
+            <div id="mevzuatAIIcerik" style="padding:16px;">
+                <div style="text-align:center; padding:30px; color:var(--ios-text-mut);">
+                    <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; margin-bottom:12px; display:block;"></i>
+                    AI analiz yapıyor...
                 </div>
             </div>
         </div>
@@ -1584,18 +1705,6 @@
     </div>
 </div>
 
-<div id="santralModal" class="modal-overlay hidden">
-    <div class="modal-content">
-        <h3 style="margin-bottom: 15px; color:var(--ios-blue);"><i class="fa-solid fa-address-book"></i> Yeni Numara Ekle</h3>
-        <input type="text" id="yeniSantralAd" placeholder="Kurum / Kişi Adı (Örn: Nöbetçi Savcı)" style="margin-bottom:10px; width:100%; background:var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; box-sizing: border-box;">
-        <input type="tel" id="yeniSantralTel" placeholder="Telefon Numarası (Örn: 0505...)" style="margin-bottom:10px; width:100%; background:var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; box-sizing: border-box;">
-        <input type="text" id="yeniSantralDesc" placeholder="Kısa Açıklama (İsteğe Bağlı)" style="margin-bottom:15px; width:100%; background:var(--ios-input-bg); border: none; border-radius: 10px; padding: 12px 14px; font-size: 16px; color: var(--ios-text); outline: none; box-sizing: border-box;">
-        <div style="display:flex; gap:10px;">
-            <button class="bot-btn btn-danger" style="margin:0;" onclick="document.getElementById('santralModal').classList.add('hidden')">İptal</button>
-            <button class="bot-btn" style="margin:0; background:var(--ios-green);" onclick="yeniSantralKaydet()">Kaydet</button>
-        </div>
-    </div>
-</div>
 
 <script>
     /* ── SHA-256 ──────────────────────────────────────────────── */
@@ -1676,38 +1785,70 @@
     };
 
     const mevzuatData = [
-        { kod: "KTK 47/1-b", desc: "Kırmızı ışık kuralına uymamak", ceza: "2.719 TL / 20 Ceza Puanı" },
-        { kod: "KTK 36/3-a", desc: "Sürücü belgesiz araç kullanmak (Yeni Düzenleme)", ceza: "40.000 TL" },
-        { kod: "KTK 48/5", desc: "Alkollü araç kullanmak (1. Defa)", ceza: "25.000 TL / 6 Ay Ehliyet İptali" },
-        { kod: "KTK 73/c", desc: "Seyir halinde cep telefonu kullanmak", ceza: "5.000 TL" },
-        { kod: "KTK 51/2-a", desc: "Hız sınırını %10'dan %30'a kadar aşmak", ceza: "2.719 TL / 10 Ceza Puanı" },
-        { kod: "KTK 51/2-b", desc: "Hız sınırını %30'dan %50'ye kadar aşmak", ceza: "5.662 TL / 15 Ceza Puanı" },
-        { kod: "KTK 51/2-c", desc: "Hız sınırını %50'den fazla aşmak", ceza: "11.629 TL / 15 Ceza Puanı" },
-        { kod: "KTK 78/1-b", desc: "Emniyet kemeri kullanmamak", ceza: "2.500 TL" },
-        { kod: "KTK 34/a", desc: "Muayenesiz araçla trafiğe çıkmak", ceza: "2.719 TL / 10 Ceza Puanı" },
-        { kod: "KTK 46/2-g", desc: "Makas atmak / S çizerek gitmek", ceza: "58.104 TL" },
-        { kod: "Kabahatler 36", desc: "Başkalarının huzur ve sükununu bozacak şekilde gürültüye neden olmak (Gerçek Kişi)", ceza: "1.764 TL" },
-        { kod: "Kabahatler 32", desc: "Emre aykırı davranış (Örn: Çevreyi rahatsız etme, kolluk emrine uymama)", ceza: "1.506 TL" },
-        { kod: "Kabahatler 37", desc: "Rahatsız edecek şekilde mal ve hizmet satmaya çalışmak (Dilencilik / Seyyar)", ceza: "1.506 TL" },
-        { kod: "TCK 86", desc: "Kasten Yaralama - Başkasının vücuduna acı veren veya sağlığını bozan kişi", ceza: "1 yıldan 3 yıla kadar hapis" },
-        { kod: "TCK 106", desc: "Tehdit - Bir başkasını, kendisinin veya yakınının hayatına, vücut veya cinsel dokunulmazlığına yönelik bir saldırı gerçekleştireceğinden bahisle tehdit etmek", ceza: "6 aydan 2 yıla kadar hapis" },
-        { kod: "TCK 125", desc: "Hakaret - Bir kimseye onur, şeref ve saygınlığını rencide edebilecek nitelikte somut bir fiil veya olgu isnat etmek", ceza: "3 aydan 2 yıla kadar hapis veya adli para cezası" }
-    ];
-
-    const defaultSantralData = [
-        { ad: "Nöbetçi Cumhuriyet Savcısı", tel: "0364 111 22 33", desc: "Dodurga Adliyesi (Santral)" },
-        { ad: "İlçe Emniyet Müdürü / Amiri", tel: "0505 111 22 33", desc: "Makam GSM" },
-        { ad: "İlçe Jandarma Komutanlığı", tel: "0364 222 33 44", desc: "Nöbetçi Subay" },
-        { ad: "Dodurga Devlet Hastanesi", tel: "0364 333 44 55", desc: "Acil Servis Triage" },
-        { ad: "Kaymakamlık Özel Kalem", tel: "0364 444 55 66", desc: "Dodurga Kaymakamlığı" },
-        { ad: "Belediye Başkanlığı", tel: "0364 555 66 77", desc: "Zabıta / Beyaz Masa" },
-        { ad: "Çorum İl Emniyet Asayiş Şube", tel: "0364 666 77 88", desc: "İl Merkezi Nöbetçi Amirliği" },
-        { ad: "Nöbetçi Eczane Bilgi Hattı", tel: "118", desc: "Otomatik Yanıt Sistemi" },
-        { ad: "Oto Çekici (Anlaşmalı Yediemin)", tel: "0532 999 88 77", desc: "7/24 Kesintisiz" },
-        { ad: "Çilingir / Anahtarcı", tel: "0544 111 22 33", desc: "Adli Arama İçin Anlaşmalı" },
-        { ad: "Başkent Doğalgaz Acil", tel: "187", desc: "Doğalgaz İhbar" },
-        { ad: "YEPAŞ Elektrik Acil", tel: "186", desc: "Elektrik Arıza" },
-        { ad: "Olay Yeri İnceleme (OYİ)", tel: "0505 222 33 44", desc: "İl Nöbetçi Ekip" }
+        // ── KTK — TRAFİK ──────────────────────────────────────────────
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 47/1-b",  desc:"Kırmızı ışık ihlali", ceza:"2.719 TL / 20 Ceza Puanı" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 36/3-a",  desc:"Sürücü belgesiz araç kullanmak", ceza:"40.000 TL" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 48/5",    desc:"Alkollü araç kullanmak (1. Defa, 0.50–0.99 promil)", ceza:"25.000 TL / 6 Ay Ehliyet İptali" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 48/5",    desc:"Alkollü araç kullanmak (2. Defa veya 1.00+ promil)", ceza:"50.000 TL / 2 Yıl Ehliyet İptali + Kurs" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 73/c",    desc:"Seyir halinde cep telefonu kullanmak", ceza:"5.000 TL" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 51/2-a",  desc:"Hız ihlali — sınırı %10–%30 aşmak", ceza:"2.719 TL / 10 Ceza Puanı" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 51/2-b",  desc:"Hız ihlali — sınırı %30–%50 aşmak", ceza:"5.662 TL / 15 Ceza Puanı" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 51/2-c",  desc:"Hız ihlali — sınırı %50'den fazla aşmak", ceza:"11.629 TL / 15 Ceza Puanı" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 78/1-b",  desc:"Emniyet kemeri kullanmamak", ceza:"2.500 TL" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 34/a",    desc:"Muayenesiz araçla trafiğe çıkmak", ceza:"2.719 TL / 10 Ceza Puanı" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 46/2-g",  desc:"Makas atmak / tehlikeli araç kullanmak", ceza:"58.104 TL" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 36/1-b",  desc:"Ehliyetin süresi dolmuş araç kullanmak", ceza:"5.000 TL" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 30/1",    desc:"Plakasız araç kullanmak veya plakayla oynamak", ceza:"8.500 TL / Araç Trafikten Men" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 57/5-b",  desc:"Dur işaretine uymamak (Kolluk)", ceza:"7.500 TL / Araç El Koyma" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 21/1",    desc:"Tescilsiz araç kullanmak", ceza:"5.662 TL" },
+        { kategori:'KTK', renk:'#FF9500', kod:"KTK 65/1-f",  desc:"Karayolunda hayvan gütmek / park etmek", ceza:"2.000 TL" },
+        // ── TCK — ŞAHSA KARŞI SUÇLAR ───────────────────────────────────
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 81",      desc:"Kasten Öldürme", ceza:"Ağırlaştırılmış Müebbet Hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 86/1",    desc:"Kasten Yaralama (Basit)", ceza:"4 aydan 1 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 86/2",    desc:"Kasten Yaralama (Silahla veya birden fazla kişiyle)", ceza:"1 yıldan 3 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 87",      desc:"Kasten Yaralama — Neticesi Ağırlaşmış (Uzuv kaybı, kalıcı sakatlık)", ceza:"2 yıldan 5 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 106/1",   desc:"Tehdit (Hayat, vücut veya cinsel dokunulmazlığa yönelik)", ceza:"6 aydan 2 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 106/2",   desc:"Tehdit — Silahla veya birden fazla kişiyle", ceza:"2 yıldan 5 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 125/1",   desc:"Hakaret (Yüze karşı)", ceza:"3 aydan 2 yıla kadar hapis veya adli para cezası" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 125/3-a", desc:"Hakaret — Kamu görevlisine görev nedeniyle", ceza:"1 yıldan 2 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 132",     desc:"Haberleşmenin Gizliliğini İhlal", ceza:"1 yıldan 3 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 141",     desc:"Hırsızlık (Basit)", ceza:"1 yıldan 3 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 142/1-b", desc:"Hırsızlık — Konuttan veya gece işlenmiş", ceza:"2 yıldan 5 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 149",     desc:"Yağma (Gasp) — Nitelikli", ceza:"10 yıldan 15 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 151",     desc:"Mala Zarar Verme (Basit)", ceza:"4 aydan 3 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 157",     desc:"Dolandırıcılık", ceza:"1 yıldan 5 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 179/1",   desc:"Trafik Güvenliğini Tehlikeye Sokmak", ceza:"6 aydan 2 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 188",     desc:"Uyuşturucu Ticareti / Temin Etme", ceza:"10 yıldan 20 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 191",     desc:"Uyuşturucu Kullanma / Bulundurma (Kişisel)", ceza:"Tedavi ve Denetimli Serbestlik" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 265/1",   desc:"Görevi Yaptırmamak İçin Direnme (Cebir/Tehdit ile)", ceza:"6 aydan 3 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 266",     desc:"Görevi Yaptırmamak — Silahla veya toplu (Af Kapsamı Dışı)", ceza:"3 yıldan 5 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 299",     desc:"Cumhurbaşkanına Hakaret", ceza:"1 yıldan 4 yıla kadar hapis" },
+        { kategori:'TCK', renk:'#FF3B30', kod:"TCK 301",     desc:"Türk Milletini Aşağılama", ceza:"6 aydan 2 yıla kadar hapis" },
+        // ── CMK — USUL ──────────────────────────────────────────────────
+        { kategori:'CMK', renk:'#5856D6', kod:"CMK 90",      desc:"Yakalama — Kolluk tarafından suçüstü yakalama yetkisi ve şartları", ceza:"İdari işlem / Savcıya bildirim zorunlu" },
+        { kategori:'CMK', renk:'#5856D6', kod:"CMK 91",      desc:"Gözaltı — Süresi ve şartları (max 24 saat, uzatma 3 güne kadar)", ceza:"İdari işlem" },
+        { kategori:'CMK', renk:'#5856D6', kod:"CMK 100",     desc:"Tutuklama — Şartları ve oran ilkesi", ceza:"Mahkeme kararı gerekir" },
+        { kategori:'CMK', renk:'#5856D6', kod:"CMK 116",     desc:"Arama — Konut araması (hâkim kararı zorunlu)", ceza:"İdari işlem" },
+        { kategori:'CMK', renk:'#5856D6', kod:"CMK 119",     desc:"Arama — Suçüstü halinde hâkim kararı olmaksızın arama", ceza:"İdari işlem" },
+        { kategori:'CMK', renk:'#5856D6', kod:"CMK 123",     desc:"Elkoyma — Suç eşyasına el koyma yetkisi", ceza:"İdari işlem / Tutanak zorunlu" },
+        { kategori:'CMK', renk:'#5856D6', kod:"CMK 147",     desc:"Şüphelinin hakları — Susma, avukat, yakınları bilgilendirme", ceza:"Yüzüne karşı okunmalı" },
+        // ── KABAHATLer ──────────────────────────────────────────────────
+        { kategori:'KABAHATler', renk:'#FF9500', kod:"Kabahatler 32",  desc:"Emre Aykırı Davranış — Kolluk emrine uymamak", ceza:"1.506 TL" },
+        { kategori:'KABAHATler', renk:'#FF9500', kod:"Kabahatler 33",  desc:"Gürültü (İdari Para Cezası — Tüzel Kişi)", ceza:"3.528 TL" },
+        { kategori:'KABAHATler', renk:'#FF9500', kod:"Kabahatler 36",  desc:"Gürültü (Gerçek Kişi — Komşuları rahatsız etme)", ceza:"1.764 TL" },
+        { kategori:'KABAHATler', renk:'#FF9500', kod:"Kabahatler 37",  desc:"Dilencilik / Seyyar satıcılık (Rahatsız edecek biçimde)", ceza:"1.506 TL" },
+        { kategori:'KABAHATler', renk:'#FF9500', kod:"Kabahatler 38",  desc:"Kumar oynamak veya oynatmak", ceza:"509 TL veya 3.024 TL (Oynatma)" },
+        { kategori:'KABAHATler', renk:'#FF9500', kod:"Kabahatler 39",  desc:"Sarhoşluk — Başkalarını rahatsız edecek biçimde alenen sarhoş olmak", ceza:"509 TL" },
+        { kategori:'KABAHATler', renk:'#FF9500', kod:"Kabahatler 40",  desc:"Dilencilik yaptırmak (Çocuk)", ceza:"3.024 TL" },
+        // ── ÖZEL KANUNLAR ────────────────────────────────────────────────
+        { kategori:'ÖZEL', renk:'#34C759', kod:"6458 YUKK 54",         desc:"Yabancı Yükümlülükler — Sınır dışı etme kararı verilecek haller", ceza:"İdari işlem / İl Göç İdaresi" },
+        { kategori:'ÖZEL', renk:'#34C759', kod:"2911 Toplantı 23",     desc:"İzinsiz toplantı ve gösteri yürüyüşü düzenlemek", ceza:"1 yıldan 3 yıla kadar hapis" },
+        { kategori:'ÖZEL', renk:'#34C759', kod:"6284 ŞÖNİM 5",         desc:"Koruyucu Tedbir — Şiddet uygulayan kişiye uzaklaştırma kararı", ceza:"Mahkeme/Savcılık kararı" },
+        { kategori:'ÖZEL', renk:'#34C759', kod:"2559 PVSK 4/A",        desc:"Dur-Kontrol yetkisi — Durdurma, kimlik sorma ve araç durdurma şartları", ceza:"İdari uygulama" },
+        { kategori:'ÖZEL', renk:'#34C759', kod:"2559 PVSK 9",          desc:"Silah kullanma yetkisi — Şartları ve sırası", ceza:"Yasal çerçeve" },
+        { kategori:'ÖZEL', renk:'#34C759', kod:"5607 Kaçakçılık 3",    desc:"Kaçakçılık — Eşya kaçakçılığı (Gümrük kaçakçılığı)", ceza:"1 yıldan 5 yıla kadar hapis" },
+        { kategori:'ÖZEL', renk:'#34C759', kod:"7258 Bahis 5",         desc:"Yasadışı bahis — Düzenlemek veya oynamak", ceza:"3 yıldan 5 yıla kadar hapis / 500.000 TL+" },
+        { kategori:'ÖZEL', renk:'#34C759', kod:"3201 EGM 13",          desc:"Polis kimliğini göstermeden giriş yapılamayacak yerler", ceza:"Yasal çerçeve" },
     ];
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -1725,8 +1866,8 @@
         document.getElementById("archiveModal").addEventListener("click", function(e) {
             if(e.target === this) { this.classList.add('hidden'); }
         });
-        document.getElementById("santralModal").addEventListener("click", function(e) {
-            if(e.target === this) { this.classList.add('hidden'); }
+        document.getElementById("mevzuatAIModal").addEventListener("click", function(e) {
+            if(e.target === this) { mevzuatAIKapat(); }
         });
     });
 
@@ -1960,90 +2101,16 @@
 
     function rehberSekmeSec(sekme) {
         document.getElementById('segMevzuat').classList.remove('active');
-        document.getElementById('segSantral').classList.remove('active');
+        document.getElementById('segHukuk').classList.remove('active');
         document.getElementById('icerikMevzuat').style.display = 'none';
-        document.getElementById('icerikSantral').style.display = 'none';
-
+        document.getElementById('icerikHukuk').style.display = 'none';
         if(sekme === 'mevzuat') {
             document.getElementById('segMevzuat').classList.add('active');
             document.getElementById('icerikMevzuat').style.display = 'block';
         } else {
-            document.getElementById('segSantral').classList.add('active');
-            document.getElementById('icerikSantral').style.display = 'block';
-            santralAra(); 
+            document.getElementById('segHukuk').classList.add('active');
+            document.getElementById('icerikHukuk').style.display = 'block';
         }
-    }
-
-    window.santralModalAc = function() {
-        document.getElementById('yeniSantralAd').value = "";
-        document.getElementById('yeniSantralTel').value = "";
-        document.getElementById('yeniSantralDesc').value = "";
-        document.getElementById('santralModal').classList.remove('hidden');
-    }
-
-    window.yeniSantralKaydet = function() {
-        const ad = document.getElementById('yeniSantralAd').value.trim();
-        const tel = document.getElementById('yeniSantralTel').value.trim();
-        const desc = document.getElementById('yeniSantralDesc').value.trim();
-
-        if(!ad || !tel) {
-            bnAlert("Lütfen isim ve telefon numarasını doldurun.", "Eksik Bilgi");
-            return;
-        }
-
-        let kayitliListe = JSON.parse(localStorage.getItem('santral_verileri')) || defaultSantralData;
-        kayitliListe.push({ ad: ad, tel: tel, desc: desc });
-        
-        localStorage.setItem('santral_verileri', JSON.stringify(kayitliListe));
-        
-        document.getElementById('santralModal').classList.add('hidden');
-        santralAra();
-    }
-
-    window.santralSil = function(index) {
-        bnConfirm("Bu numarayı rehberden tamamen silmek istediğinize emin misiniz?", "Numara Sil", () => {
-            let kayitliListe = JSON.parse(localStorage.getItem('santral_verileri')) || defaultSantralData;
-            kayitliListe.splice(index, 1);
-            localStorage.setItem('santral_verileri', JSON.stringify(kayitliListe));
-            santralAra();
-        }, null, 'red');
-    }
-
-    function santralAra() {
-        const query = document.getElementById("santralArama").value.toLocaleLowerCase('tr-TR');
-        const container = document.getElementById("santralSonuclar");
-        container.innerHTML = "";
-
-        let kayitliListe = JSON.parse(localStorage.getItem('santral_verileri')) || defaultSantralData;
-
-        const results = kayitliListe.map((s, index) => ({...s, originalIndex: index})).filter(s => 
-            s.ad.toLocaleLowerCase('tr-TR').includes(query) || 
-            s.desc.toLocaleLowerCase('tr-TR').includes(query) ||
-            s.tel.includes(query)
-        );
-
-        if (results.length === 0) {
-            container.innerHTML = "<p style='font-size:12px; color:var(--ios-text-mut); text-align:center; padding: 20px;'>Kayıt bulunamadı. Üstteki Ekle butonunu kullanarak yeni numara ekleyebilirsiniz.</p>";
-            return;
-        }
-
-        results.forEach(s => {
-            container.innerHTML += `
-                <div class="mevzuat-card" style="flex-direction:row; align-items:center; justify-content:space-between; position:relative;">
-                    <div style="flex:1; padding-right:10px;">
-                        <div style="font-weight:700; color:var(--ios-text); font-size:14px; margin-bottom:4px;">${s.ad}</div>
-                        <div style="font-size:11px; color:var(--ios-text-mut); margin-bottom:4px;">${s.desc}</div>
-                        <div style="font-size:13px; font-weight:700; color:var(--ios-blue);"><i class="fa-solid fa-phone" style="font-size:10px; margin-right:4px;"></i>${s.tel}</div>
-                    </div>
-                    <div style="display:flex; gap:12px; align-items:center;">
-                        <i class="fa-solid fa-trash" style="color:var(--ios-red); cursor:pointer; font-size:16px; padding:5px;" onclick="santralSil(${s.originalIndex})"></i>
-                        <a href="tel:${s.tel.replace(/\\s+/g, '')}" style="background:var(--ios-green); color:white; width:42px; height:42px; border-radius:50%; display:flex; justify-content:center; align-items:center; text-decoration:none; box-shadow:0 2px 5px rgba(52,199,89,0.3); flex-shrink:0;">
-                            <i class="fa-solid fa-phone-volume" style="font-size:16px;"></i>
-                        </a>
-                    </div>
-                </div>
-            `;
-        });
     }
 
     function mevzuatAra() {
@@ -2052,30 +2119,178 @@
         container.innerHTML = "";
 
         if (query.length < 2) {
-            container.innerHTML = "<p style='font-size:12px; color:var(--ios-text-mut); text-align:center; padding: 20px;'>Aramaya başlamak için yukarıya en az 2 harf veya madde numarası giriniz.</p>";
+            container.innerHTML = "<p style='font-size:12px; color:var(--ios-text-mut); text-align:center; padding:20px;'>Aramaya başlamak için en az 2 karakter girin.</p>";
             return;
         }
 
-        const results = mevzuatData.filter(m => 
-            m.kod.toLocaleLowerCase('tr-TR').includes(query) || 
-            m.desc.toLocaleLowerCase('tr-TR').includes(query)
+        const results = mevzuatData.filter(m =>
+            m.kod.toLocaleLowerCase('tr-TR').includes(query) ||
+            m.desc.toLocaleLowerCase('tr-TR').includes(query) ||
+            m.kategori.toLocaleLowerCase('tr-TR').includes(query)
         );
 
         if (results.length === 0) {
-            container.innerHTML = "<p style='font-size:12px; color:var(--ios-text-mut); text-align:center; padding: 20px;'>Sonuç bulunamadı.</p>";
+            container.innerHTML = `<div style="text-align:center; padding:24px;">
+                <div style="font-size:28px; margin-bottom:10px;">🔍</div>
+                <div style="font-size:13px; color:var(--ios-text-mut); margin-bottom:14px;">Listede bulunamadı. AI'a sormak ister misiniz?</div>
+                <button onclick="rehberSekmeSec('hukuk'); document.getElementById('hukukSoruInput').value='${query} hakkında bilgi ver'; hukukSor();"
+                    style="background:var(--ios-blue); color:white; border:none; border-radius:10px; padding:10px 18px; font-size:13px; font-weight:700; cursor:pointer;">
+                    <i class="fa-solid fa-robot" style="margin-right:6px;"></i>AI'a Sor
+                </button>
+            </div>`;
             return;
         }
 
-        results.forEach(m => {
+        results.forEach((m, i) => {
+            const kRenk = m.renk || '#8E8E93';
+            const kRenkHex = kRenk;
             container.innerHTML += `
                 <div class="mevzuat-card">
-                    <span class="mevzuat-kod">${m.kod}</span>
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom:2px;">
+                        <span class="mevzuat-kategori-etiket" style="background:${kRenkHex}18; color:${kRenkHex};">${m.kategori}</span>
+                        <span class="mevzuat-kod">${m.kod}</span>
+                    </div>
                     <span class="mevzuat-desc">${m.desc}</span>
-                    <span class="mevzuat-ceza">${m.ceza}</span>
+                    <span class="mevzuat-ceza"><i class="fa-solid fa-gavel" style="font-size:11px; margin-right:4px;"></i>${m.ceza}</span>
+                    <button class="mevzuat-ai-btn" onclick="mevzuatAIDetay('${m.kod.replace(/'/g,"\\'")}', '${m.desc.replace(/'/g,"\\'")}', '${m.ceza.replace(/'/g,"\\'")}')">
+                        <i class="fa-solid fa-robot"></i> AI ile Detaylı Açıklama Al
+                    </button>
                 </div>
             `;
         });
     }
+
+    // MEVZUAT AI DETAY
+    window.mevzuatAIDetay = async function(kod, desc, ceza) {
+        const modal = document.getElementById('mevzuatAIModal');
+        document.getElementById('mevzuatAIPanelKod').innerText = kod;
+        document.getElementById('mevzuatAIPanelDesc').innerText = desc;
+        document.getElementById('mevzuatAIIcerik').innerHTML = `
+            <div style="text-align:center; padding:30px; color:var(--ios-text-mut);">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size:24px; margin-bottom:12px; display:block;"></i>
+                AI analiz yapıyor...
+            </div>`;
+        modal.classList.add('goster');
+
+        try {
+            const response = await fetch(AI_PROXY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-6',
+                    max_tokens: 1200,
+                    system: `Sen Türk hukukunda uzman, özellikle polis sahası uygulamalarını çok iyi bilen bir hukuk danışmanısın. Türkiye'de görev yapan polis memurlarına kısa, net ve uygulanabilir bilgi verirsin. Yanıtlarını her zaman şu JSON formatında ver: {"unsurlar":"...", "saha":"...", "dikkat":"...", "form":"..."}`,
+                    messages: [{ role: 'user', content: `Madde: ${kod}\nTanım: ${desc}\nCeza: ${ceza}\n\nBu madde hakkında 4 başlık altında kısa açıklama yaz:\n1. unsurlar: Suçun oluşması için gerekli unsurlar (2-3 madde)\n2. saha: Sahada nasıl tespit edilir, nasıl uygulanır (pratik)\n3. dikkat: Dikkat edilmesi gereken en önemli husus (hak ihlali, delil vs)\n4. form: Hangi evrak/tutanak düzenlenmeli\n\nYALNIZCA JSON ver, başka hiçbir şey yazma.` }]
+                })
+            });
+            const data = await response.json();
+            const text = data.content?.map(c => c.text||'').join('') || '';
+            const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
+
+            document.getElementById('mevzuatAIIcerik').innerHTML = `
+                <div class="mevzuat-ai-bolum">
+                    <div class="mevzuat-ai-bolum-baslik">⚖️ Suçun Unsurları</div>
+                    <div class="mevzuat-ai-bolum-metin">${parsed.unsurlar}</div>
+                </div>
+                <div class="mevzuat-ai-bolum">
+                    <div class="mevzuat-ai-bolum-baslik">🚔 Sahada Uygulama</div>
+                    <div class="mevzuat-ai-bolum-metin">${parsed.saha}</div>
+                </div>
+                <div class="mevzuat-ai-bolum" style="border:1.5px solid rgba(255,149,0,0.3); background:rgba(255,149,0,0.06);">
+                    <div class="mevzuat-ai-bolum-baslik" style="color:var(--ios-orange);">⚠️ Dikkat Edilmesi Gerekenler</div>
+                    <div class="mevzuat-ai-bolum-metin">${parsed.dikkat}</div>
+                </div>
+                <div class="mevzuat-ai-bolum">
+                    <div class="mevzuat-ai-bolum-baslik">📋 Düzenlenecek Evrak</div>
+                    <div class="mevzuat-ai-bolum-metin">${parsed.form}</div>
+                </div>`;
+        } catch(e) {
+            document.getElementById('mevzuatAIIcerik').innerHTML = `<div style="text-align:center; padding:24px; color:var(--ios-red);">AI yanıtı alınamadı. Tekrar deneyin.</div>`;
+        }
+    };
+
+    window.mevzuatAIKapat = function() {
+        document.getElementById('mevzuatAIModal').classList.remove('goster');
+    };
+
+    // HUKUKİ DANIŞ CHAT
+    let hukukChatGecmisi = [];
+
+    window.hukukSor = async function() {
+        const input = document.getElementById('hukukSoruInput');
+        const soru = input.value.trim();
+        if (!soru) return;
+
+        const chatAlani = document.getElementById('hukukChatAlani');
+        const gonderBtn = document.getElementById('hukukGonderBtn');
+
+        // Kullanıcı balonu
+        const saat = new Date().toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'});
+        chatAlani.innerHTML += `
+            <div class="hukuk-chat-balonu kullanici">
+                <div class="hukuk-chat-balon-icerik">${soru}</div>
+                <div class="hukuk-chat-zaman">${saat}</div>
+            </div>`;
+        
+        // Yükleniyor balonu
+        const loadId = 'hload_' + Date.now();
+        chatAlani.innerHTML += `
+            <div class="hukuk-chat-balonu ai" id="${loadId}">
+                <div class="hukuk-chat-balon-icerik" style="color:var(--ios-text-mut);">
+                    <i class="fa-solid fa-spinner fa-spin"></i> Düşünüyor...
+                </div>
+            </div>`;
+        chatAlani.scrollTop = chatAlani.scrollHeight;
+
+        hukukChatGecmisi.push({ role: 'user', content: soru });
+        input.value = '';
+        input.style.height = 'auto';
+        gonderBtn.disabled = true;
+
+        try {
+            const response = await fetch(AI_PROXY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    model: 'claude-sonnet-4-6',
+                    max_tokens: 1000,
+                    system: `Sen Dodurga İlçe Emniyet Müdürlüğü bünyesinde görev yapan polis memurlarına hukuki destek veren uzman bir asistansın. Türk hukuku (TCK, CMK, KTK, PVSK, Kabahatler Kanunu vb.) konusunda derinlemesine bilgilisin. Sahadaki gerçek durumları değerlendirerek:
+- Hangi suç vasfının uygulanacağını
+- Hangi kanun maddelerinin devreye gireceğini
+- Nasıl işlem yapılması gerektiğini
+- Hangi evrakların düzenleneceğini
+net ve uygulanabilir biçimde açıkla. Kısa, özlü ve saha gerçekliğine uygun cevap ver. Hukuki sorumluluk uyarısı eklemene gerek yok.`,
+                    messages: hukukChatGecmisi
+                })
+            });
+            const data = await response.json();
+            const cevap = data.content?.map(c => c.text||'').join('') || 'Yanıt alınamadı.';
+            hukukChatGecmisi.push({ role: 'assistant', content: cevap });
+
+            document.getElementById(loadId).outerHTML = `
+                <div class="hukuk-chat-balonu ai">
+                    <div class="hukuk-chat-balon-icerik">${cevap.replace(/\n/g,'<br>')}</div>
+                    <div class="hukuk-chat-zaman">YSFYKC AI · ${saat}</div>
+                </div>`;
+        } catch(e) {
+            document.getElementById(loadId).outerHTML = `
+                <div class="hukuk-chat-balonu ai">
+                    <div class="hukuk-chat-balon-icerik" style="color:var(--ios-red);">Bağlantı hatası. Tekrar deneyin.</div>
+                </div>`;
+        } finally {
+            gonderBtn.disabled = false;
+            chatAlani.scrollTop = chatAlani.scrollHeight;
+        }
+    };
+
+    window.hukukChatTemizle = function() {
+        hukukChatGecmisi = [];
+        document.getElementById('hukukChatAlani').innerHTML = `
+            <div class="hukuk-chat-balonu ai">
+                <div class="hukuk-chat-balon-icerik">Merhaba! Ben Dodurga İlçe Emniyet'in hukuki danışman asistanıyım. Sahada karşılaştığınız herhangi bir durumu anlatın — size uygulanabilir mevzuatı, suç vasfını ve yapılması gerekenleri açıklayayım.</div>
+                <div class="hukuk-chat-zaman">YSFYKC AI</div>
+            </div>`;
+    };
 
     let gosterilenAy = new Date().getMonth();
     let gosterilenYil = new Date().getFullYear();
